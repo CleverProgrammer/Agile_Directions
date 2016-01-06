@@ -10,27 +10,15 @@ $(document).ready(function() {
     var URL = "https://maps.googleapis.com/maps/api/directions/json?origin="
         + loc1 + "&destination=" + loc2 + "&key=" + API_KEY;
 
-    /*
-    function httpGetAsync(theUrl, callback) {
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function () {
-            if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-                callback(xmlHttp.responseText);
-        };
-        xmlHttp.open("GET", theUrl, true); // true for asynchronous
-        xmlHttp.send(null);
-    }
-    */
-
-
     console.log(loc1);
     console.log(URL);
-    // console.log(httpGetAsync(URL));
 
     $.getJSON(URL, function(json) {
         console.log("hi");
         console.log(json);
     });
+
+
 });
 
 /*
