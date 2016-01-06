@@ -1,4 +1,19 @@
 body {
-    padding: 0;
-    margin: 0;
+    background-color: #2b669a;
+}
+
+h1 {
+    color: white;
+    font-size: 3em;
+}
+
+button {
+    background-color: #204056;
+    color: white;
+    font-weight: bold;
+}
+
+button:hover,
+button:focus {
+    color: lightgray !important;
 }
