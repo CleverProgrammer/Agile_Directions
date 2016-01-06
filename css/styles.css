@@ -17,3 +17,8 @@ button:hover,
 button:focus {
     color: lightgray !important;
 }
+
+.directions {
+    width: 100%;
+    height: auto;
+}

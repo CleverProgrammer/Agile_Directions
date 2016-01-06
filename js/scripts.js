@@ -60,7 +60,16 @@ function getEta(json) {
 }
 
 
+
 $(document).ready(function() {
+
+    function showDirections(item) {
+        var div = document.createElement("div");
+        $(div).addClass("directions");
+        getDirections(json).forEach() {
+
+        }
+    }
     $("#getButton").click(function () {
 
         // Get the user input
