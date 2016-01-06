@@ -36,8 +36,14 @@ $(document).ready(function() {
         // Obtain json object through GET request
         $.getJSON(URL, function(json) {
             var steps = json["routes"][0]["legs"][0]["steps"];
+            var counter = 0;
             steps.forEach(function(step){
-                console.log(strip(step["html_instructions"]));
+                if (counter === steps.length - 1) {
+                    console.log(strip(step["html_instructions"]).replace( /([a-z])([A-Z])/g, "$1 $2"));
+                } else {
+                    console.log(strip(step["html_instructions"]));
+                }
+                counter++;
             });
         });
     });
