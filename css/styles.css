@@ -21,4 +21,6 @@ button:focus {
 .directions {
     width: 100%;
     height: auto;
+    background-color: white;
+    padding: 20px 20px;
 }

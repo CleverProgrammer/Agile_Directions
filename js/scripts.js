@@ -57,15 +57,18 @@ function getEta(json) {
     return json["routes"][0]["legs"][0]["duration"]["text"];
 }
 
+function showDirections(json) {
+    var div = document.createElement("div");
+    $(div).addClass("directions");
+    getDirections(json).forEach(function(item) {
+       $(div).append("<p>"+item+"</p>");
+    });
+
+    $("#listDirections").append(div);
+}
+
 $(document).ready(function() {
 
-    function showDirections(item) {
-        var div = document.createElement("div");
-        $(div).addClass("directions");
-        getDirections(json).forEach() {
-
-        }
-    }
     $("#getButton").click(function () {
 
         // Get the user input
@@ -80,6 +83,7 @@ $(document).ready(function() {
         $.getJSON(URL, function (json) {
             console.log(getEta(json));
             console.log(getDirections(json));
+            showDirections(json);
         });
     });
 });
