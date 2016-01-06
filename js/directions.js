@@ -4,11 +4,15 @@
  */
 
 
-$.getScript("my_lovely_script.js", function(){
+API_KEY = "AIzaSyBPoko2bK_ViRjPtVVT7XuFYZWSmV_6scQ";
+
+/*
+$.getScript("../secret_api.js", function(){
 
     alert("Script loaded but not necessarily executed.");
 
 });
+*/
 
 
 function httpGet(theUrl)
