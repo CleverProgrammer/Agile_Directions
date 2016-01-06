@@ -60,6 +60,7 @@ function getEta(json) {
 function showDirections(json) {
     var div = document.createElement("div");
     $(div).addClass("directions");
+    $(div).append($("#destination").val());
     getDirections(json).forEach(function(item) {
        $(div).append("<p>"+item+"</p>");
     });
