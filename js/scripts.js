@@ -54,7 +54,7 @@ function showDirections(json) {
        $(div).append("<p>"+item+"</p>");
     });
 
-    $("#listDirections").append(div);
+    $("#listDirections").append(div,"<br>");
 }
 
 $(document).ready(function() {
