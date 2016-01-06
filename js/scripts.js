@@ -23,16 +23,28 @@ function strip(html)
 
 
 $(document).ready(function() {
-    var loc1 = '7024 west carol ave Niles IL'.replace(/ /g, "%20");  // Test%20-%20Text"
-    var loc2 = '9053 Laramie Avenue Skokie'.replace(/ /g, "%20");
+    // var origin;
+    // var destination;
+    $("button").on("click", function() {
+        origin = $('#origin').html().replace(/ /g, "%20");
+        destination = $('#destination').html().replace(/ /g, "%20");
+        console.log("HELLO HIIIII");
+        console.log(origin);
+        console.log(destination);
+    });
+
+    // console.log(origin);
+    // console.log(destination);
+    // var destination = '9053 Laramie Avenue Skokie'.replace(/ /g, "%20");
     var URL = "https://maps.googleapis.com/maps/api/directions/json?origin="
-        + loc1 + "&destination=" + loc2 + "&key=" + API_KEY;
+        + origin + "&destination=" + destination + "&key=" + API_KEY;
 
 
     $.getJSON(URL, function(json) {
         var steps = json["routes"][0]["legs"][0]["steps"];
-        for (var i=0; i<steps.length; i++) {
-            console.log(strip(steps[i]["html_instructions"]));
-        }
+        steps.forEach(function(step){
+           console.log(strip(step["html_instructions"]));
+        });
     });
+    // var origin = '7024 west carol ave Niles IL'.replace(/ /g, "%20");  // Test%20-%20Text"
 });
