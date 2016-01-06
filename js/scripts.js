@@ -3,7 +3,7 @@
  * Created by ChessTastic on 1/6/16.
  */
 
-
+response.addHeader(response.addHeader("Access-Control-Allow-Origin", "*"));
 
 $(document).ready(function() {
     var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
