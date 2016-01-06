@@ -28,7 +28,7 @@ function strip(html)
 
 /**
  * Takes in the Google Maps API JSON object as input and returns
- * the step by step instructions.
+ * the step by step instructions as a list of strings with HTML tags stripped.
  * @param {Object} json
  * @return {Array} directions
  */
@@ -42,14 +42,14 @@ function getDirections(json) {
         counter++;
     });
 
-    // Separate the 2 conjoint words in the last line.
+    // Separates the 2 conjoint words in the last line.
     // so "Ave Destination" instead of "AveDestination"
     directions[directions.length - 1] = directions[directions.length-1].replace(/([a-z])([A-Z])/g, "$1 $2");
     return directions;
 }
 
 /**
- * Takes in the Google Maps API JSON object as input and prints the ETA.
+ * Takes in the Google Maps API JSON object as input and returns the ETA as a string.
  * @param {Object} json
  * @return {string}
  */
