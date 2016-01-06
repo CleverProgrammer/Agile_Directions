@@ -19,7 +19,7 @@ button:focus {
 }
 
 .directions {
-    width: 100%;
+    max-width: 80%;
     height: auto;
     background-color: white;
     padding: 20px 20px;
