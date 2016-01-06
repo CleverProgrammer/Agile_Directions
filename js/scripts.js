@@ -14,6 +14,11 @@
 var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
 
 
+/**
+ * Takes in a string and strips its HTML tags.
+ * @param {string} html
+ * @returns {string|string}
+ */
 function strip(html)
 {
     var tmp = document.createElement("DIV");
