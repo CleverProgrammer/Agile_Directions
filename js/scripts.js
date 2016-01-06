@@ -15,18 +15,6 @@ var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
 
 
 /**
- * Takes in a string and strips its HTML tags.
- * @param {string} html
- * @returns {string|string}
- */
-function strip(html)
-{
-    var tmp = document.createElement("DIV");
-    tmp.innerHTML = html;
-    return tmp.textContent || tmp.innerText || "";
-}
-
-/**
  * Takes in the Google Maps API JSON object as input and returns
  * the step by step instructions as a list of strings with HTML tags stripped.
  * @param {Object} json
