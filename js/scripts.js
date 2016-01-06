@@ -46,6 +46,7 @@ function getEta(json) {
 }
 
 function showDirections(json) {
+    //creates div, adds class, and appends the div
     var div = document.createElement("div");
     $(div).addClass("directions");
     $(div).append("<b>FROM: </b> " + $("#origin").val() + "<br>");
