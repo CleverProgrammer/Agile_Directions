@@ -29,7 +29,7 @@ $(document).ready(function() {
     console.log(URL);
     // console.log(httpGetAsync(URL));
 
-    $.getJSON(createCORSRequest(), function(json) {
+    $.getJSON(URL, function(json) {
         console.log("hi");
         console.log(json);
     });
