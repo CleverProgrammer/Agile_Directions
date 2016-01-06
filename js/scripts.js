@@ -26,40 +26,36 @@ function strip(html)
     return tmp.textContent || tmp.innerText || "";
 }
 
-
 /**
- * Takes in the Google Maps API JSON object as input and prints
+ * Takes in the Google Maps API JSON object as input and returns
  * the step by step instructions.
  * @param {Object} json
+ * @return {Array} directions
  */
 function getDirections(json) {
-    console.log("Here are your step by step directions...");
     var steps = json["routes"][0]["legs"][0]["steps"];
+    var directions = [];
     var counter = 0;
+
     steps.forEach(function (step) {
-        // if it is the last line. Separate the 2 conjoint words.
-        // so "Ave Destination" instead of "AveDestination"
-        if (counter === steps.length - 1) {
-            console.log(strip(step["html_instructions"]).replace(/([a-z])([A-Z])/g, "$1 $2"));
-        } else {
-            console.log(strip(step["html_instructions"]));
-        }
+        directions.push(strip(step["html_instructions"]));
         counter++;
     });
-}
 
+    // Separate the 2 conjoint words in the last line.
+    // so "Ave Destination" instead of "AveDestination"
+    directions[directions.length - 1] = directions[directions.length-1].replace(/([a-z])([A-Z])/g, "$1 $2");
+    return directions;
+}
 
 /**
  * Takes in the Google Maps API JSON object as input and prints the ETA.
  * @param {Object} json
+ * @return {string}
  */
 function getEta(json) {
-    console.log("Your current ETA is:");
-    console.log(json["routes"][0]["legs"][0]["duration"]["text"]);
-    console.log();
+    return json["routes"][0]["legs"][0]["duration"]["text"];
 }
-
-
 
 $(document).ready(function() {
 
@@ -82,8 +78,8 @@ $(document).ready(function() {
 
         // Obtain json object through GET request
         $.getJSON(URL, function (json) {
-            getEta(json);
-            getDirections(json);
+            console.log(getEta(json));
+            console.log(getDirections(json));
         });
     });
 });
