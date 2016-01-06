@@ -21,10 +21,11 @@ button:focus {
 .directions {
     max-width: 80%;
     height: auto;
-    background-color: white;
+    background-color: whitesmoke;
+    color: #0f0f0f;
     padding: 20px 20px;
     margin: 0 auto;
-    font-size: 1.2em;
+    font-size: 1.5em;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
