@@ -102,4 +102,3 @@ $.getScript("../secret_api.js", function(){
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
     // Locations
-
