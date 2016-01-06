@@ -1,0 +1,3 @@
+# Google Directions Report Generator
+------------------------------------
+The goal of this project is to create a website that uses the Google Maps API in order to give data to its users. The web app will take in user's origin followed by all their commonly visited places. Using that it will generate a report for the travel instructions towards all those places and e-mail them to the user so they have their navigation even through **offline** access.
