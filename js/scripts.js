@@ -49,7 +49,9 @@ function showDirections(json) {
     //creates div, adds class, and appends the div
     var div = document.createElement("div");
     $(div).addClass("directions");
-    $(div).append($("#destination").val());
+    $(div).append("<b>FROM: </b> " + $("#origin").val() + "<br>");
+    $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
+    $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
     getDirections(json).forEach(function(item) {
        $(div).append("<p>"+item+"</p>");
     });
