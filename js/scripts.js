@@ -38,7 +38,7 @@ function getDirections(json) {
     var counter = 1;
 
     steps.forEach(function(step) {
-        directions.push(counter + ". " + strip(step["html_instructions"]));
+        directions.push(counter + ". " + step["html_instructions"]);
         counter++;
     });
 
