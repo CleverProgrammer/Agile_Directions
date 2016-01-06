@@ -23,28 +23,22 @@ function strip(html)
 
 
 $(document).ready(function() {
-    // var origin;
-    // var destination;
-    $("button").on("click", function() {
-        origin = $('#origin').html().replace(/ /g, "%20");
-        destination = $('#destination').html().replace(/ /g, "%20");
-        console.log("HELLO HIIIII");
-        console.log(origin);
-        console.log(destination);
-    });
+    $("#getButton").click(function() {
 
-    // console.log(origin);
-    // console.log(destination);
-    // var destination = '9053 Laramie Avenue Skokie'.replace(/ /g, "%20");
-    var URL = "https://maps.googleapis.com/maps/api/directions/json?origin="
-        + origin + "&destination=" + destination + "&key=" + API_KEY;
+        // Get the user input
+        var origin = $('#origin').val().replace(/ /g, "%20");
+        var destination = $('#destination').val().replace(/ /g, "%20");
 
+        // Create the URL
+        var URL = "https://maps.googleapis.com/maps/api/directions/json?origin="
+            + origin + "&destination=" + destination + "&key=" + API_KEY;
 
-    $.getJSON(URL, function(json) {
-        var steps = json["routes"][0]["legs"][0]["steps"];
-        steps.forEach(function(step){
-           console.log(strip(step["html_instructions"]));
+        // Obtain json object through GET request
+        $.getJSON(URL, function(json) {
+            var steps = json["routes"][0]["legs"][0]["steps"];
+            steps.forEach(function(step){
+                console.log(strip(step["html_instructions"]));
+            });
         });
     });
-    // var origin = '7024 west carol ave Niles IL'.replace(/ /g, "%20");  // Test%20-%20Text"
 });
