@@ -10,6 +10,10 @@
 // The following request returns driving directions from Toronto, Ontario to Montreal, Quebec:
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
+
+var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
+
+
 function strip(html)
 {
     var tmp = document.createElement("DIV");
@@ -17,8 +21,8 @@ function strip(html)
     return tmp.textContent || tmp.innerText || "";
 }
 
+
 $(document).ready(function() {
-    var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
     var loc1 = '7024 west carol ave Niles IL'.replace(/ /g, "%20");  // Test%20-%20Text"
     var loc2 = '9053 Laramie Avenue Skokie'.replace(/ /g, "%20");
     var URL = "https://maps.googleapis.com/maps/api/directions/json?origin="
@@ -27,15 +31,8 @@ $(document).ready(function() {
 
     $.getJSON(URL, function(json) {
         var steps = json["routes"][0]["legs"][0]["steps"];
-        for (i in steps) {
+        for (var i=0; i<steps.length; i++) {
             console.log(strip(steps[i]["html_instructions"]));
         }
     });
-
-
-
-
-
 });
-
-
