@@ -35,10 +35,10 @@ function strip(html)
 function getDirections(json) {
     var steps = json["routes"][0]["legs"][0]["steps"];
     var directions = [];
-    var counter = 0;
+    var counter = 1;
 
-    steps.forEach(function (step) {
-        directions.push(strip(step["html_instructions"]));
+    steps.forEach(function(step) {
+        directions.push(counter + ". " + strip(step["html_instructions"]));
         counter++;
     });
 
