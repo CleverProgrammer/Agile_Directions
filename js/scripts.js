@@ -48,7 +48,7 @@ function getEta(json) {
 function showDirections(json) {
     //creates div, adds class, and appends the div
     var div = document.createElement("div");
-    $(div).addClass("directions");
+    $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
     $(div).append("<b>FROM: </b> " + $("#origin").val() + "<br>");
     $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
     $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
@@ -56,7 +56,7 @@ function showDirections(json) {
        $(div).append("<p>"+item+"</p>");
     });
 
-    $("#listDirections").append(div,"<br>");
+    $("#listDirections").append(div);
 }
 
 $(document).ready(function() {
