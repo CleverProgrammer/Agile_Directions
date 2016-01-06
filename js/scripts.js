@@ -26,7 +26,6 @@ function strip(html)
     return tmp.textContent || tmp.innerText || "";
 }
 
-
 /**
  * Takes in the Google Maps API JSON object as input and prints
  * the step by step instructions.
@@ -34,8 +33,10 @@ function strip(html)
  */
 function getDirections(json) {
     console.log("Here are your step by step directions...");
+
     var steps = json["routes"][0]["legs"][0]["steps"];
     var counter = 0;
+
     steps.forEach(function (step) {
         // if it is the last line. Separate the 2 conjoint words.
         // so "Ave Destination" instead of "AveDestination"
@@ -48,7 +49,6 @@ function getDirections(json) {
     });
 }
 
-
 /**
  * Takes in the Google Maps API JSON object as input and prints the ETA.
  * @param {Object} json
@@ -58,7 +58,6 @@ function getEta(json) {
     console.log(json["routes"][0]["legs"][0]["duration"]["text"]);
     console.log();
 }
-
 
 $(document).ready(function() {
     $("#getButton").click(function () {
