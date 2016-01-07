@@ -7,12 +7,19 @@
     <title>Website Google Project</title>
     <script src="js/jquery-1.11.3.min.js"></script>
     <script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/papaparse/papaparse.min.js"></script>
+    <script src="bower_components/json5/lib/json5.js"></script>
+    <script src="bower_components/Chart.js/Chart.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.9.0/validate.min.js"></script>
     <link rel="stylesheet" href="bootstrap-3.3.6-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <link rel="shortcut icon" type="image/ico" href="photos/favIcon.png">
   </head>
   <body>
     <div class="container">
+      <div style="width: 10%">
+        <canvas id="canvas" height="100" width="100"></canvas>
+      </div>
       <h1 class="text-center">All Your Directions In One Spot</h1>
       <br>
       <div class="row row-content">

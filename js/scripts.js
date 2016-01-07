@@ -62,8 +62,50 @@ function showDirections(json) {
     $("#listDirections").append(div);
 }
 
+function barPlot() {
+    var randomScalingFactor = function () {
+        return Math.round(Math.random() * 100)
+    };
+    var barChartData = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+            {
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            },
+            {
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,0.8)",
+                highlightFill: "rgba(151,187,205,0.75)",
+                highlightStroke: "rgba(151,187,205,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            }
+        ]
+    };
+    window.onload = function () {
+        var ctx = document.getElementById("canvas").getContext("2d");
+        window.myBar = new Chart(ctx).Bar(barChartData, {
+            responsive: true
+        });
+    }
+}
+
+function papa(URL) {
+    Papa.unparse(URL, {
+        download: true,
+        complete: function (results) {
+            console.log(results);
+        }
+    });
+}
+
+
 $(document).ready(function () {
     "use strict";
+    // barPlot();
 
     $("#getButton").click(function () {
 
@@ -77,8 +119,42 @@ $(document).ready(function () {
 
         // Obtain json object through GET request
         $.getJSON(URL, function (json) {
-            console.log(getEta(json));
-            console.log(getDirections(json));
+            // console.log(data);
+            // console.log(Papa.unparse(JSON.stringify([json])));
+            var directions = getDirections(json);
+            var csv = Papa.unparse({
+                fields: ["Destinations"],
+                data: [
+                    [directions]
+                ]
+            });
+            console.log(csv);
+            var csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += csv;
+            console.log(csv);
+            var encodedUri = encodeURI(csvContent);
+            console.log(encodedUri);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "my_data.csv");
+
+            link.click(); // This will download the data file named "my_data.csv".
+            console.log(csv);
+            // console.log(directions[0]);
+            console.log('hello');
+            console.log(directions);
+            // console.log([directions]);
+            // console.log(csv);
+            // var csv = Papa.unparse([
+            //     ["1-1", "1-2", "1-3"],
+            //     ["2-1", "2-2", "2-3"]
+            // ]);
+            // var csv = Papa.unparse(JSON.stringify(data));
+            // console.log(csv);
+            // window.open(url, "_blank");
+            // window.focus();
+            // console.log(getEta(json));
+            // console.log(getDirections(json));
             showDirections(json);
         });
     });
