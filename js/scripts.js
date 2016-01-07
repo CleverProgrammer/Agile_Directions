@@ -42,10 +42,6 @@ function getDirections(json) {
         counter += 1;
     });
 
-    // Change "destination will be on the left for 300 ft" to
-    // "destination will be on the left in 300 ft"
-    directions[directions.length - 1] = directions[directions.length - 1].replace(/for/g, "in");
-
     // Separates the 2 conjoint words in the last line.
     // so "Ave Destination" instead of "AveDestination"
     directions[directions.length - 1] = directions[directions.length - 1].replace(/([a-z])([A-Z])/g, "$1 $2");
