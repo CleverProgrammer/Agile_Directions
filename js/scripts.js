@@ -61,6 +61,10 @@ function showDirections(json) {
     $("#listDirections").append(div);
 }
 
+function inputAdder () {
+   $()
+}
+
 $(document).ready(function () {
     "use strict";
 
