@@ -10,8 +10,7 @@
 // The following request returns driving directions from Toronto, Ontario to Montreal, Quebec:
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
-
-var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
+var APIKEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
 
 /**
  * Takes in a string and strips its HTML tags.
@@ -50,6 +49,11 @@ function getDirections(json) {
     // Separates the 2 conjoint words in the last line.
     // so "Ave Destination" instead of "AveDestination"
     directions[directions.length - 1] = directions[directions.length - 1].replace(/([a-z])([A-Z])/g, "$1 $2");
+
+    // Change "destination will be on the left for 300 ft" to
+    // "destination will be on the left in 300 ft"
+    directions[directions.length - 1] = directions[directions.length - 1].replace(/for/g, "in");
+
     return directions;
 }
 
@@ -68,7 +72,7 @@ function showDirections(json) {
     // creates div, adds class, and appends the div
     var div = document.createElement("div");
     $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
-    $(div).append("<b>FROM: </b> " + $("#origin").val() + "<br>");
+    $(div).append("<b> FROM: </b> " + $("#origin").val() + "<br>");
     $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
     $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
     getDirections(json).forEach(function (item) {
@@ -76,6 +80,19 @@ function showDirections(json) {
     });
     $("#listDirections").append(div);
 }
+var arr = [];
+$("#plus").on("click", function() {
+    if ($("#destination").val() !== "") {
+        console.log($("#destination").val());
+        arr.push($("#destination").val());
+        console.log(arr);
+        $("#destination").css("border", "none");
+    } else if($("#destination").val("")){
+        $("#destination").css("border", "2px solid red");
+    }
+      $("#destination").val("");
+});
+
 
 function barPlot() {
     var randomScalingFactor = function () {
@@ -120,7 +137,7 @@ $(document).ready(function () {
 
         // Create the URL
         var URL = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-            "" + origin + "&destination=" + destination + "&key=" + API_KEY;
+            "" + origin + "&destination=" + destination + "&key=" + APIKEY;
 
         // Obtain json object through GET request
         $.getJSON(URL, function (json) {
