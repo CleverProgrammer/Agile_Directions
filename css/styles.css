@@ -28,3 +28,14 @@ button:focus {
     border-radius: 8px;
     margin-bottom: 20px;
 }
+
+.glyphicon-plus {
+    font-size: 2em;
+    color: white;
+    padding: 5px 5px;
+}
+
+.glyphicon-plus:hover {
+    color: coral;
+    cursor: pointer;
+}
