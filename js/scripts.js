@@ -10,6 +10,7 @@
 // The following request returns driving directions from Toronto, Ontario to Montreal, Quebec:
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
+var APIKEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
 
 /**
  * Takes in the Google Maps API JSON object as input and returns
@@ -24,13 +25,19 @@ function getDirections(json) {
     var counter = 1;
 
     steps.forEach(function (step) {
-        directions.push(counter + ". " + step.html_instructions);
+        directions.push(counter + ". " +
+            step.html_instructions + " for " + step.distance.text);
         counter += 1;
     });
 
     // Separates the 2 conjoint words in the last line.
     // so "Ave Destination" instead of "AveDestination"
     directions[directions.length - 1] = directions[directions.length - 1].replace(/([a-z])([A-Z])/g, "$1 $2");
+
+    // Change "destination will be on the left for 300 ft" to
+    // "destination will be on the left in 300 ft"
+    directions[directions.length - 1] = directions[directions.length - 1].replace(/for/g, "in");
+
     return directions;
 }
 
