@@ -9,7 +9,6 @@ Session.vim
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
 
 # SECRET API KEY
-js/secret_api.js
 
 # PLAYGROUND
 js/playgroud.js
