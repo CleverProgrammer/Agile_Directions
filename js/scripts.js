@@ -3,6 +3,10 @@
  * Created by Rafeh Qazi on 1/6/16.
  */
 
+// Need the following for JSLINT global '$' inspections.
+/*jslint browser: true*/
+/*global $, jQuery, alert*/
+
 // A Google Maps Directions API request takes the following form:
 // https://maps.googleapis.com/maps/api/directions/output?parameters
 
@@ -21,18 +25,19 @@ var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
  * @return {Array} directions
  */
 function getDirections(json) {
-    var steps = json["routes"][0]["legs"][0]["steps"];
+    "use strict";
+    var steps = json.routes[0].legs[0].steps;
     var directions = [];
     var counter = 1;
 
-    steps.forEach(function(step) {
-        directions.push(counter + ". " + step["html_instructions"]);
-        counter++;
+    steps.forEach(function (step) {
+        directions.push(counter + ". " + step.html_instructions);
+        counter += 1;
     });
 
     // Separates the 2 conjoint words in the last line.
     // so "Ave Destination" instead of "AveDestination"
-    directions[directions.length - 1] = directions[directions.length-1].replace(/([a-z])([A-Z])/g, "$1 $2");
+    directions[directions.length - 1] = directions[directions.length - 1].replace(/([a-z])([A-Z])/g, "$1 $2");
     return directions;
 }
 
@@ -42,24 +47,26 @@ function getDirections(json) {
  * @return {string}
  */
 function getEta(json) {
-    return json["routes"][0]["legs"][0]["duration"]["text"];
+    "use strict";
+    return json.routes[0].legs[0].duration.text;
 }
 
 function showDirections(json) {
-    //creates div, adds class, and appends the div
+    "use strict";
+    // creates div, adds class, and appends the div
     var div = document.createElement("div");
     $(div).addClass("directions");
     $(div).append("<b>FROM: </b> " + $("#origin").val() + "<br>");
     $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
     $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
-    getDirections(json).forEach(function(item) {
-       $(div).append("<p>"+item+"</p>");
+    getDirections(json).forEach(function (item) {
+       $(div).append("<p>" + item + "</p>");
     });
-
     $("#listDirections").append(div);
 }
 
-$(document).ready(function() {
+$(document).ready(function () {
+    "use strict";
 
     $("#getButton").click(function () {
 
@@ -68,8 +75,8 @@ $(document).ready(function() {
         var destination = $('#destination').val().replace(/ /g, "%20");
 
         // Create the URL
-        var URL = "https://maps.googleapis.com/maps/api/directions/json?origin="
-            + origin + "&destination=" + destination + "&key=" + API_KEY;
+        var URL = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
+            "" + origin + "&destination=" + destination + "&key=" + API_KEY;
 
         // Obtain json object through GET request
         $.getJSON(URL, function (json) {
