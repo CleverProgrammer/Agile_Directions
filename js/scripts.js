@@ -11,9 +11,6 @@
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
 
-var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
-
-
 /**
  * Takes in the Google Maps API JSON object as input and returns
  * the step by step instructions as a list of strings with HTML tags stripped.
@@ -72,7 +69,7 @@ $(document).ready(function () {
 
         // Create the URL
         var URL = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-            "" + origin + "&destination=" + destination + "&key=" + API_KEY;
+            "" + origin + "&destination=" + destination + "&key=" + APIKEY;
 
         // Obtain json object through GET request
         $.getJSON(URL, function (json) {
