@@ -130,8 +130,14 @@ $(document).ready(function () {
             });
             console.log(csv);
             var csvContent = "data:text/csv;charset=utf-8,";
-            csvContent += csv;
+            // csvContent += csv;
             console.log(csv);
+
+            // header
+            csvContent += "Directions\n";
+            directions.forEach(function (direction, index) {
+                csvContent += index < directions.length ? direction + "\n" : direction;
+            });
             var encodedUri = encodeURI(csvContent);
             console.log(encodedUri);
             var link = document.createElement("a");
