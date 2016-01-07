@@ -56,7 +56,7 @@ function showDirections(json) {
     // creates div, adds class, and appends the div
     var div = document.createElement("div");
     $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
-    $(div).append("<b>FROM: </b> " + $("#origin").val() + "<br>");
+    $(div).append("<b> FROM: </b> " + $("#origin").val() + "<br>");
     $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
     $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
     getDirections(json).forEach(function (item) {
@@ -64,10 +64,19 @@ function showDirections(json) {
     });
     $("#listDirections").append(div);
 }
+var arr = [];
+$("#plus").on("click", function() {
+    if ($("#destination").val() !== "") {
+        console.log($("#destination").val());
+        arr.push($("#destination").val());
+        console.log(arr);
+        $("#destination").css("border", "none");
+    } else if($("#destination").val("")){
+        $("#destination").css("border", "2px solid red");
+    }
+      $("#destination").val("");
+});
 
-function inputAdder () {
-   $()
-}
 
 $(document).ready(function () {
     "use strict";
