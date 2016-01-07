@@ -27,7 +27,8 @@ function getDirections(json) {
     var counter = 1;
 
     steps.forEach(function (step) {
-        directions.push(counter + ". " + step.html_instructions);
+        directions.push(counter + ". " +
+            step.html_instructions + " for " + step.distance.text);
         counter += 1;
     });
 
