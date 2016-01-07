@@ -3,10 +3,6 @@
  * Created by Rafeh Qazi on 1/6/16.
  */
 
-// Need the following for JSLINT global '$' inspections.
-/*jslint browser: true*/
-/*global $, jQuery, alert*/
-
 // A Google Maps Directions API request takes the following form:
 // https://maps.googleapis.com/maps/api/directions/output?parameters
 
