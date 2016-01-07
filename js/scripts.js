@@ -13,6 +13,17 @@
 
 var API_KEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
 
+/**
+ * Takes in a string and strips its HTML tags.
+ * @param {string} html
+ * @returns {string|string}
+ */
+function strip(html)
+{
+    var tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+}
 
 /**
  * Takes in the Google Maps API JSON object as input and returns
@@ -31,6 +42,10 @@ function getDirections(json) {
             step.html_instructions + " for " + step.distance.text);
         counter += 1;
     });
+
+    // Change "destination will be on the left for 300 ft" to
+    // "destination will be on the left in 300 ft"
+    directions[directions.length - 1] = directions[directions.length - 1].replace(/for/g, "in");
 
     // Separates the 2 conjoint words in the last line.
     // so "Ave Destination" instead of "AveDestination"
@@ -93,16 +108,6 @@ function barPlot() {
     }
 }
 
-function papa(URL) {
-    Papa.unparse(URL, {
-        download: true,
-        complete: function (results) {
-            console.log(results);
-        }
-    });
-}
-
-
 $(document).ready(function () {
     "use strict";
     // barPlot();
@@ -119,48 +124,21 @@ $(document).ready(function () {
 
         // Obtain json object through GET request
         $.getJSON(URL, function (json) {
-            // console.log(data);
-            // console.log(Papa.unparse(JSON.stringify([json])));
             var directions = getDirections(json);
-            var csv = Papa.unparse({
-                fields: ["Destinations"],
-                data: [
-                    [directions]
-                ]
-            });
-            console.log(csv);
             var csvContent = "data:text/csv;charset=utf-8,";
-            // csvContent += csv;
-            console.log(csv);
 
             // header
             csvContent += "Directions\n";
             directions.forEach(function (direction, index) {
-                csvContent += index < directions.length ? direction + "\n" : direction;
+                csvContent += strip(direction + "\n");
             });
+
             var encodedUri = encodeURI(csvContent);
-            console.log(encodedUri);
             var link = document.createElement("a");
             link.setAttribute("href", encodedUri);
             link.setAttribute("download", "my_data.csv");
-
             link.click(); // This will download the data file named "my_data.csv".
-            console.log(csv);
-            // console.log(directions[0]);
-            console.log('hello');
-            console.log(directions);
-            // console.log([directions]);
-            // console.log(csv);
-            // var csv = Papa.unparse([
-            //     ["1-1", "1-2", "1-3"],
-            //     ["2-1", "2-2", "2-3"]
-            // ]);
-            // var csv = Papa.unparse(JSON.stringify(data));
-            // console.log(csv);
-            // window.open(url, "_blank");
-            // window.focus();
-            // console.log(getEta(json));
-            // console.log(getDirections(json));
+
             showDirections(json);
         });
     });

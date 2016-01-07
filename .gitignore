@@ -12,6 +12,7 @@ Session.vim
 secret_api.js
 
 *.iml
+js/playground.js
 
 ## Directory-based project format:
 .idea/
