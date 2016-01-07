@@ -10,6 +10,7 @@
 // The following request returns driving directions from Toronto, Ontario to Montreal, Quebec:
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
+var APIKEY = "AISyBPoko2bK_ViRjPtVVT7XuFYZWSmV_6scQ";
 
 /**
  * Takes in the Google Maps API JSON object as input and returns
