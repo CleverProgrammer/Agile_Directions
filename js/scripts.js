@@ -59,10 +59,21 @@ function showDirections(json) {
 }
 var arr=[];
 $("#next").on("click", function () {
+    arr.push($("#origin").val());
     $("h2").html("To:");
-    $("#origin").attr("placeholder", "Destination");
-    $("#origin").val("");
 
+    if ($("#destination").val() !== "") {
+        console.log($("#destination").val());
+        arr.push($("#destination").val());
+        console.log(arr);
+        $("#destination").css("border", "none");
+    } else if($("#destination").val("")){
+        $("#destination").css("border", "2px solid red");
+    }
+
+    $("#origin").attr("placeholder", "Destination");
+    $("#origin").attr("id", "destination")
+    $("#origin").val("");
 });
 
 
