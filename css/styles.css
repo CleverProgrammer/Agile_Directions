@@ -13,6 +13,10 @@ button {
     font-weight: bold;
 }
 
+.btn-block {
+    margin-bottom: 15px;
+}
+
 button:hover,
 button:focus {
     color: lightgray !important;
