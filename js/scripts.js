@@ -10,7 +10,17 @@
 // The following request returns driving directions from Toronto, Ontario to Montreal, Quebec:
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
-var APIKEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
+/**
+ * Takes in a string and strips its HTML tags.
+ * @param {string} html
+ * @returns {string|string}
+ */
+function strip(html)
+{
+    var tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
+}
 
 /**
  * Takes in the Google Maps API JSON object as input and returns
@@ -56,7 +66,7 @@ function showDirections(json) {
     // creates div, adds class, and appends the div
     var div = document.createElement("div");
     $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
-    $(div).append("<b>FROM: </b> " + $("#origin").val() + "<br>");
+    $(div).append("<b> FROM: </b> " + $("#origin").val() + "<br>");
     $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
     $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
     getDirections(json).forEach(function (item) {
@@ -64,9 +74,54 @@ function showDirections(json) {
     });
     $("#listDirections").append(div);
 }
+var arr = [];
+$("#plus").on("click", function() {
+    if ($("#destination").val() !== "") {
+        console.log($("#destination").val());
+        arr.push($("#destination").val());
+        console.log(arr);
+        $("#destination").css("border", "none");
+    } else if($("#destination").val("")){
+        $("#destination").css("border", "2px solid red");
+    }
+      $("#destination").val("");
+});
+
+
+function barPlot() {
+    var randomScalingFactor = function () {
+        return Math.round(Math.random() * 100)
+    };
+    var barChartData = {
+        labels: ["January", "February", "March", "April", "May", "June", "July"],
+        datasets: [
+            {
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            },
+            {
+                fillColor: "rgba(151,187,205,0.5)",
+                strokeColor: "rgba(151,187,205,0.8)",
+                highlightFill: "rgba(151,187,205,0.75)",
+                highlightStroke: "rgba(151,187,205,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            }
+        ]
+    };
+    window.onload = function () {
+        var ctx = document.getElementById("canvas").getContext("2d");
+        window.myBar = new Chart(ctx).Bar(barChartData, {
+            responsive: true
+        });
+    }
+}
 
 $(document).ready(function () {
     "use strict";
+    // barPlot();
 
     $("#getButton").click(function () {
 
@@ -76,12 +131,25 @@ $(document).ready(function () {
 
         // Create the URL
         var URL = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-            "" + origin + "&destination=" + destination + "&key=" + APIKEY;
+            "" + origin + "&destination=" + destination;
 
         // Obtain json object through GET request
         $.getJSON(URL, function (json) {
-            console.log(getEta(json));
-            console.log(getDirections(json));
+            var directions = getDirections(json);
+            var csvContent = "data:text/csv;charset=utf-8,";
+
+            // header
+            csvContent += "Directions\n";
+            directions.forEach(function (direction, index) {
+                csvContent += strip(direction + "\n");
+            });
+
+            var encodedUri = encodeURI(csvContent);
+            var link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "my_data.csv");
+            link.click(); // This will download the data file named "my_data.csv".
+
             showDirections(json);
         });
     });
