@@ -14,6 +14,7 @@ Session.vim
 js/playgroud.js
 
 *.iml
+playground.html
 js/playground.js
 
 ## Directory-based project format:

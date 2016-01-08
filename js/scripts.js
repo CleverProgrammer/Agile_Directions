@@ -15,8 +15,7 @@
  * @param {string} html
  * @returns {string|string}
  */
-function strip(html)
-{
+function strip(html) {
     var tmp = document.createElement("DIV");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
@@ -36,7 +35,7 @@ function getDirections(json) {
 
     steps.forEach(function (step) {
         directions.push(counter + ". " +
-            step.html_instructions + " for " + step.distance.text);
+            step.instructions + " for " + step.distance.text);
         counter += 1;
     });
 
@@ -70,21 +69,21 @@ function showDirections(json) {
     $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
     $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
     getDirections(json).forEach(function (item) {
-       $(div).append("<p>" + item + "</p>");
+        $(div).append("<p>" + item + "</p>");
     });
     $("#listDirections").append(div);
 }
 var arr = [];
-$("#plus").on("click", function() {
+$("#plus").on("click", function () {
     if ($("#destination").val() !== "") {
         console.log($("#destination").val());
         arr.push($("#destination").val());
         console.log(arr);
         $("#destination").css("border", "none");
-    } else if($("#destination").val("")){
+    } else if ($("#destination").val("")) {
         $("#destination").css("border", "2px solid red");
     }
-      $("#destination").val("");
+    $("#destination").val("");
 });
 
 
@@ -119,38 +118,67 @@ function barPlot() {
     }
 }
 
+function downloadJSON2CSV(json) {
+    var directions = getDirections(json);
+    var csvContent = "data:text/csv;charset=utf-8,";
+
+    // header
+    csvContent += "Directions\n";
+
+    directions.forEach(function (direction, index) {
+        csvContent += strip(direction + "\n");
+    });
+
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "my_data.csv");
+
+    // This will download the data file named "my_data.csv".showDirections(json);
+    link.click();
+}
+
+/**
+ * Takes in an encoded URI for origin and destination. It returns the request.
+ * @param {string} origin
+ * @param {string} destination
+ * @return {Object}
+ */
+function directionsRequest(origin, destination) {
+    return {
+        origin: origin,
+        destination: destination,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+}
+
+function directionsResponse(request, success) {
+    var directionsService = new google.maps.DirectionsService();
+    directionsService.route(request, function (response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            // directionsDisplay.setDirections(response);
+            success(response);
+        } else {
+            alert("Whoops, you got an error!");
+        }
+    });
+}
+
+function downloadDirections() {
+    // Get the user input
+    var origin = encodeURI($('#origin').val());
+    var destination = encodeURI($('#destination').val());
+
+    var request = directionsRequest(decodeURI(origin), decodeURI(destination));
+    directionsResponse(request, downloadJSON2CSV);
+}
+
 $(document).ready(function () {
     "use strict";
-    // barPlot();
 
-    $("#getButton").click(function () {
-
-        // Get the user input
-        var origin = $('#origin').val().replace(/ /g, "%20");
-        var destination = $('#destination').val().replace(/ /g, "%20");
-
-        // Create the URL
-        var URL = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-            "" + origin + "&destination=" + destination;
-
-        // Obtain json object through GET request
-        $.getJSON(URL, function (json) {
-            var directions = getDirections(json);
-            var csvContent = "data:text/csv;charset=utf-8,";
-
-            // header
-            csvContent += "Directions\n";
-            directions.forEach(function (direction, index) {
-                csvContent += strip(direction + "\n");
-            });
-
-            var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "my_data.csv");
-            link.click(); // This will download the data file named "my_data.csv".
-
-            showDirections(json);
-        });
+    $("#getDirections").click(function () {
+        downloadDirections();
+        // var directionsDisplay = new google.maps.DirectionsRenderer();
+        // directionsDisplay.setPanel(document.getElementById('panel'));
     });
 });
