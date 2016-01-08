@@ -134,7 +134,6 @@ function directionsResponse(request, success) {
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             // directionsDisplay.setDirections(response);
-            console.log("HI i am in the success if statement");
             success(response);
         } else {
             alert("Whoops, you got an error!");
