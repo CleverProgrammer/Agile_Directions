@@ -131,9 +131,11 @@ function directionsRequest(origin, destination) {
 
 function directionsResponse(request, success) {
     var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setPanel(document.getElementById('panel'));
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
-            // directionsDisplay.setDirections(response);
+            directionsDisplay.setDirections(response);
             success(response);
         } else {
             alert("Whoops, you got an error!");
@@ -159,7 +161,5 @@ $(document).ready(function () {
 
     $("#getDirections").click(function () {
         downloadDirectionsAsCSV();
-        // var directionsDisplay = new google.maps.DirectionsRenderer();
-        // directionsDisplay.setPanel(document.getElementById('panel'));
     });
 });
