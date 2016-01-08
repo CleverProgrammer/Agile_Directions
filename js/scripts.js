@@ -78,11 +78,11 @@ function getEta(json) {
  * Takes in user destinations and returns a list of destinations.
  * @returns {array} destinations
  */
-function destinationAdder (destinations, destinationButton) {
+function destinationAdder(destinations, destinationButton) {
     if ($(destinationButton).val() === "") {
         $(destinationButton).css("border", "2px solid red");
     } else {
-        destinations.push(destinationButton.val());
+        destinations.push(destinationButton.val().split(",").join(" "));
         $(destinationButton).css("border", "none");
     }
     $(destinationButton).val("");
@@ -91,19 +91,39 @@ function destinationAdder (destinations, destinationButton) {
 
 /**
  *
- * Takes in a json object. Converts it to a CSV and downloads it.
- * @param {Object} json
+ * Takes in a list of strings as destinations. Takes in a list of lists
+ * as directions. Converts it to a CSV and downloads it.
+ * @param {array} allDestinations
+ * @param {array} allDirections
  */
-function downloadJSON2CSV (json) {
-    var directions = getDirections(json);
-    var csvContent = "data:text/csv;charset=utf-8,";
-
-    // header
-    csvContent += "Directions\n";
-
-    directions.forEach(function (direction, index) {
-        csvContent += strip(direction + "\n");
+function downloadDirectionsAsCSV(allDestinations, allDirections) {
+    console.log("HI");
+    console.log(allDestinations);
+    console.log(allDirections);
+    console.log("BYE");
+    var strippedDirections = [];
+    allDirections.forEach(function(direction) {
+        strippedDirections.push(direction.map(strip) + "\n");
     });
+    console.log(strippedDirections);
+    var csvContent = "data:text/csv;charset=utf-8,";
+    var papaCsv = Papa.unparse({
+        fields: allDestinations,
+        data: strippedDirections
+    });
+    console.log("HEY", papaCsv);
+
+    /*
+    allDirections.forEach(function (directions, index) {
+        // header
+        csvContent += allDestinations[index] + "\n";
+        var data = directions.join("\n");
+        // csvContent += data + ",".repeat(index);
+        index += 1;
+    });
+    */
+    csvContent += papaCsv;
+    console.log(csvContent);
 
     var encodedUri = encodeURI(csvContent);
     var link = document.createElement("a");
@@ -169,7 +189,7 @@ function allAddressDirections(origin, destinations) {
     var allDirections = [];
     console.log(origin);
     console.log(destinations);
-    destinations.forEach(function (destination) {
+    destinations.forEach(function (destination, index) {
         var request = directionsRequest(origin, destination);
         var directionsService = new google.maps.DirectionsService();
         directionsService.route(request, function (response, status) {
@@ -180,6 +200,9 @@ function allAddressDirections(origin, destinations) {
                 allDirections.push(getDirections(response));
                 console.log(destinations);
                 console.log("1. CHECK IT IN THE IF COND -->", allDirections);
+                if (index === destinations.length - 1) {
+                    downloadDirectionsAsCSV(destinations, allDirections);
+                }
             } else {
                 alert("Whoops, you got an error!");
             }
