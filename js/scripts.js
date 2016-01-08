@@ -14,6 +14,7 @@
  * Asynchronous function that turns the input FROM and TO fields into
  * autocomplete.
  */
+
 function initMap() {
     var origin_input = document.getElementById("origin");
     var destination_input = document.getElementById("destination");
@@ -21,6 +22,7 @@ function initMap() {
     var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
     var destination_autocomplete = new google.maps.places.Autocomplete(destination_input);
 }
+
 
 /**
  * Takes in a string and strips its HTML tags.
@@ -164,19 +166,29 @@ function showDirections(origin, destinations) {
  * @param {array} destinations
  */
 function allAddressDirections(origin, destinations) {
-    destinations.forEach(function () {
+    var allDirections = [];
+    console.log(origin);
+    console.log(destinations);
+    destinations.forEach(function (destination) {
         var request = directionsRequest(origin, destination);
         var directionsService = new google.maps.DirectionsService();
         directionsService.route(request, function (response, status) {
-            if (status == google.maps.DirectionsStatus.OK) {
-                directionsDisplay.setDirections(response);
+            if (status === google.maps.DirectionsStatus.OK) {
                 console.log("HI i am in the success if statement");
-                getDirections(response)
+                console.log(getDirections(response));
+                console.log("HERE");
+                allDirections.push(getDirections(response));
+                console.log(destinations);
+                console.log("1. CHECK IT IN THE IF COND -->", allDirections);
             } else {
                 alert("Whoops, you got an error!");
             }
         });
+        console.log("187 -->", allDirections);
     });
+
+    console.log("2. CHECK IT UP -->", allDirections);
+    return allDirections;
 }
 
 $(document).ready(function () {
@@ -187,7 +199,6 @@ $(document).ready(function () {
     // Recurring user input for destinations.
     var destinationButton = $("#destination");
     var destinations = [];
-    var allDirections = [];
     var clicks = 0;
     $("#plus").click(function () {
         // Store the origin address only once.
@@ -202,6 +213,9 @@ $(document).ready(function () {
 
     $("#getDirections").click(function () {
         showDirections(origin, destinations);
+        console.log("line 215 -->", allAddressDirections(origin, destinations));
+        // console.log("CHECK IT UP -->", allDirections);
+        console.log("YOOOO");
     });
 
 });
