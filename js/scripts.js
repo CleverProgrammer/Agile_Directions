@@ -152,7 +152,7 @@ function downloadDirectionsAsCSV() {
 
     var request = directionsRequest(origin, destination);
     directionsResponse(request, showDirections);
-    // directionsResponse(request, downloadJSON2CSV);
+    directionsResponse(request, downloadJSON2CSV);
 }
 
 $(document).ready(function () {
