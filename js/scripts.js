@@ -61,12 +61,11 @@ function getEta(json) {
 }
 
 /**
- *Takes JSON object as input. Creates a div and outputs the div to the user showing the directions.
+ * Takes JSON object as input. Creates a div and outputs the div to the user showing the directions.
  * @param json
  */
 function showDirections(json) {
     "use strict";
-    // Shows the directions on the webpage after user inputs their origin and destination.
     var div = document.createElement("div");
     $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
     $(div).append("<b> FROM: </b> " + $("#origin").val() + "<br>");
@@ -79,7 +78,7 @@ function showDirections(json) {
 }
 
 /**
- * Takes in user destinations and returns a list of destinations
+ * Takes in user destinations and returns a list of destinations.
  * @returns {Array}
  */
 function destinationAdder (destinations) {
