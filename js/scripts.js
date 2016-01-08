@@ -10,8 +10,6 @@
 // The following request returns driving directions from Toronto, Ontario to Montreal, Quebec:
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
-var APIKEY = "AIzaSyC4NDN-0uaL7Jn44lEz5Bd4fJGQ69pHcGA";
-
 /**
  * Takes in a string and strips its HTML tags.
  * @param {string} html
@@ -133,7 +131,7 @@ $(document).ready(function () {
 
         // Create the URL
         var URL = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-            "" + origin + "&destination=" + destination + "&key=" + APIKEY;
+            "" + origin + "&destination=" + destination;
 
         // Obtain json object through GET request
         $.getJSON(URL, function (json) {
