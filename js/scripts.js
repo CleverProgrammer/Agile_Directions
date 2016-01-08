@@ -11,6 +11,18 @@
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
 /**
+ * Asynchronous function that turns the input FROM and TO fields into
+ * autocomplete.
+ */
+function initMap() {
+    var origin_input = document.getElementById("origin");
+    var destination_input = document.getElementById("destination");
+
+    var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
+    var destination_autocomplete = new google.maps.places.Autocomplete(destination_input);
+}
+
+/**
  * Takes in a string and strips its HTML tags.
  * @param {string} html
  * @returns {string|string}
@@ -61,35 +73,17 @@ function getEta(json) {
 }
 
 /**
- * Takes JSON object as input. Creates a div and outputs the div to the user showing the directions.
- * @param json
- */
-function showDirections(json) {
-    "use strict";
-    var div = document.createElement("div");
-    $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
-    $(div).append("<b> FROM: </b> " + $("#origin").val() + "<br>");
-    $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
-    $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
-    getDirections(json).forEach(function (item) {
-        $(div).append("<p>" + item + "</p>");
-    });
-    $("#listDirections").append(div);
-}
-
-/**
  * Takes in user destinations and returns a list of destinations.
- * @returns {Array}
+ * @returns {array} destinations
  */
-function destinationAdder (destinations) {
-    var destination = $("#destination");
-    if ($(destination).val() !== "") {
-       destinations.push(destination.val());
-       $(destination).css("border", "none");
-    } else if ($(destination).val("")) {
-        $(destination).css("border", "2px solid red");
+function destinationAdder (destinations, destinationButton) {
+    if ($(destinationButton).val() === "") {
+        $(destinationButton).css("border", "2px solid red");
+    } else {
+        destinations.push(destinationButton.val());
+        $(destinationButton).css("border", "none");
     }
-    $(destination).val("");
+    $(destinationButton).val("");
     return destinations;
 }
 
@@ -98,7 +92,7 @@ function destinationAdder (destinations) {
  * Takes in a json object. Converts it to a CSV and downloads it.
  * @param {Object} json
  */
-function downloadJSON2CSV(json) {
+function downloadJSON2CSV (json) {
     var directions = getDirections(json);
     var csvContent = "data:text/csv;charset=utf-8,";
 
@@ -132,7 +126,11 @@ function directionsRequest(origin, destination) {
     };
 }
 
-function directionsResponse(request, success) {
+/**
+ * Take in as input a request object and a success function.
+ * @param {Object} request
+ */
+function displayDirectionsReport(request) {
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
     directionsDisplay.setPanel(document.getElementById('listDirections'));
@@ -140,8 +138,6 @@ function directionsResponse(request, success) {
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
-            console.log("HI i am in the success if statement");
-            success(response);
         } else {
             alert("Whoops, you got an error!");
         }
@@ -149,29 +145,63 @@ function directionsResponse(request, success) {
 }
 
 /**
- * Downloads directions as a CSV file.
+ * It shows all the directions' results at once to the user.
+ * @param {string} origin
+ * @param {array} destinations
  */
-function downloadDirectionsAsCSV() {
+function showDirections(origin, destinations) {
     // Get the user input
-    var origin = $('#origin').val();
-    var destination = $('#destination').val();
+    destinations.forEach(function (destination) {
+        var request = directionsRequest(origin, destination);
+        displayDirectionsReport(request);
+        // displayDirectionsReport(request, downloadJSON2CSV);
+    });
+}
 
-    var request = directionsRequest(origin, destination);
-    directionsResponse(request, function () {});
-    // directionsResponse(request, downloadJSON2CSV);
+/**
+ * Returns a list of lists containing all directions.
+ * @param {string} origin
+ * @param {array} destinations
+ */
+function allAddressDirections(origin, destinations) {
+    destinations.forEach(function () {
+        var request = directionsRequest(origin, destination);
+        var directionsService = new google.maps.DirectionsService();
+        directionsService.route(request, function (response, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                console.log("HI i am in the success if statement");
+                getDirections(response)
+            } else {
+                alert("Whoops, you got an error!");
+            }
+        });
+    });
 }
 
 $(document).ready(function () {
     "use strict";
-
-    $("#getDirections").click(function () {
-        downloadDirectionsAsCSV();
-    });
+    // origin address is stored here after the first plus sign button click.
+    var origin;
 
     // Recurring user input for destinations.
+    var destinationButton = $("#destination");
     var destinations = [];
+    var allDirections = [];
+    var clicks = 0;
     $("#plus").click(function () {
-        destinationAdder(destinations);
+        // Store the origin address only once.
+        clicks += 1;
+        if (clicks === 1) {
+            origin = $("#origin").val();
+            console.log(origin);
+        }
+        destinationAdder(destinations, destinationButton);
         console.log(destinations);
     });
+
+    $("#getDirections").click(function () {
+        showDirections(origin, destinations);
+    });
+
 });
