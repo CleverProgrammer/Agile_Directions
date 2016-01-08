@@ -11,10 +11,10 @@ Session.vim
 # SECRET API KEY
 
 # PLAYGROUND
+playground.html
 js/playground.js
 
 *.iml
-js/playground.js
 
 ## Directory-based project format:
 .idea/
