@@ -132,7 +132,9 @@ function directionsRequest(origin, destination) {
 function directionsResponse(request, success) {
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
-    directionsDisplay.setPanel(document.getElementById('panel'));
+    var arr = [];
+    directionsDisplay.setPanel(document.getElementById('listDirections'));
+    $("#listDirections").css("background-color", "white");
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
@@ -152,8 +154,8 @@ function downloadDirectionsAsCSV() {
     var destination = $('#destination').val();
 
     var request = directionsRequest(origin, destination);
-    directionsResponse(request, showDirections);
-    directionsResponse(request, downloadJSON2CSV);
+    directionsResponse(request, function () {});
+    // directionsResponse(request, downloadJSON2CSV);
 }
 
 $(document).ready(function () {
