@@ -134,9 +134,12 @@ function directionsRequest(origin, destination) {
 
 function directionsResponse(request, success) {
     var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    directionsDisplay.setPanel(document.getElementById("listDirections"));
+    $("#listDirections").css("background-color", "white");
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
-            // directionsDisplay.setDirections(response);
+            directionsDisplay.setDirections(response);
             console.log("HI i am in the success if statement");
             success(response);
         } else {
@@ -154,7 +157,7 @@ function downloadDirectionsAsCSV() {
     var destination = $('#destination').val();
 
     var request = directionsRequest(origin, destination);
-    directionsResponse(request, showDirections);
+    directionsResponse(request, function () {});
     // directionsResponse(request, downloadJSON2CSV);
 }
 
