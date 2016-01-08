@@ -73,6 +73,8 @@ function showDirections(json) {
     });
     $("#listDirections").append(div);
 }
+
+// NEEDS TO BE FIXED.
 var arr = [];
 $("#plus").on("click", function () {
     if ($("#destination").val() !== "") {
@@ -86,38 +88,10 @@ $("#plus").on("click", function () {
     $("#destination").val("");
 });
 
-
-function barPlot() {
-    var randomScalingFactor = function () {
-        return Math.round(Math.random() * 100)
-    };
-    var barChartData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [
-            {
-                fillColor: "rgba(220,220,220,0.5)",
-                strokeColor: "rgba(220,220,220,0.8)",
-                highlightFill: "rgba(220,220,220,0.75)",
-                highlightStroke: "rgba(220,220,220,1)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-            },
-            {
-                fillColor: "rgba(151,187,205,0.5)",
-                strokeColor: "rgba(151,187,205,0.8)",
-                highlightFill: "rgba(151,187,205,0.75)",
-                highlightStroke: "rgba(151,187,205,1)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-            }
-        ]
-    };
-    window.onload = function () {
-        var ctx = document.getElementById("canvas").getContext("2d");
-        window.myBar = new Chart(ctx).Bar(barChartData, {
-            responsive: true
-        });
-    }
-}
-
+/**
+ * Takes in a json object. Converts it to a CSV and downloads it.
+ * @param {Object} json
+ */
 function downloadJSON2CSV(json) {
     var directions = getDirections(json);
     var csvContent = "data:text/csv;charset=utf-8,";
@@ -164,7 +138,10 @@ function directionsResponse(request, success) {
     });
 }
 
-function downloadDirections() {
+/**
+ * Downloads directions as a CSV file.
+ */
+function downloadDirectionsAsCSV() {
     // Get the user input
     var origin = encodeURI($('#origin').val());
     var destination = encodeURI($('#destination').val());
@@ -177,7 +154,7 @@ $(document).ready(function () {
     "use strict";
 
     $("#getDirections").click(function () {
-        downloadDirections();
+        downloadDirectionsAsCSV();
         // var directionsDisplay = new google.maps.DirectionsRenderer();
         // directionsDisplay.setPanel(document.getElementById('panel'));
     });
