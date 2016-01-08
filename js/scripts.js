@@ -77,11 +77,11 @@ function showDirections(json) {
     });
     $("#listDirections").append(div);
 }
+
 /**
  * Takes in user destinations and returns a list of destinations
  * @returns {Array}
  */
-
 function destinationAdder (destinations) {
     var destination = $("#destination");
     if ($(destination).val() !== "") {
