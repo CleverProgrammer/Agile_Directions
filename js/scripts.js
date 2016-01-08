@@ -57,34 +57,15 @@ function showDirections(json) {
     });
     $("#listDirections").append(div);
 }
-
+var arr=[];
 $("#next").on("click", function () {
-    $("#tempDiv").remove();
-    $(".container").append('<div class="row row-content" id="tempDiv">' +
-        '<div class="col-xs-12 col-sm-6 col-sm-offset-3">' +
-            '<div class="text-center">' +
-                '<h2>To:</h2>' +
-            '</div>' +
-        '</div>' +
-        '<div style="padding: 20px 20px"></div>' +
-        '<div class="col-xs-12 col-sm-6 col-sm-offset-3">' +
-            '<div>' +
-                '<input id="origin" type="text" class="form-control input-lg" placeholder="Destination" value="7024 carol ave">' +
-            '</div>' +
-        '</div>' +
-        '<div style="padding: 40px 40px"></div>' +
-        '<div class="col-xs-12 col-sm-6 col-sm-offset-3">' +
-            '<div class="text-center">' +
-                '<button class ="btn btn-lg" id="getButton">Get Directions' +
-                '</button>' +
-            '</div>' +
-        '</div>' +
-        '</div>');
+    $("h2").html("To:");
+    $("#origin").attr("placeholder", "Destination");
+    $("#origin").val("");
 
-    $("#getButton").click(function() {
-        alert("hello");
-    });
 });
+
+
 
 
 $(document).ready(function () {
