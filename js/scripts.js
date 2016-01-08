@@ -60,9 +60,12 @@ function getEta(json) {
     return json.routes[0].legs[0].duration.text;
 }
 
+/**
+ *Takes JSON object as input. Creates a div and outputs the div to the user showing the directions.
+ * @param json
+ */
 function showDirections(json) {
     "use strict";
-    // creates div, adds class, and appends the div
     var div = document.createElement("div");
     $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
     $(div).append("<b> FROM: </b> " + $("#origin").val() + "<br>");
@@ -73,22 +76,27 @@ function showDirections(json) {
     });
     $("#listDirections").append(div);
 }
+/**
+ * Takes in user destinations and returns a list of destinations
+ * @returns {Array}
+ */
 
-// NEEDS TO BE FIXED.
-var arr = [];
-$("#plus").on("click", function () {
-    if ($("#destination").val() !== "") {
-        console.log($("#destination").val());
-        arr.push($("#destination").val());
-        console.log(arr);
-        $("#destination").css("border", "none");
-    } else if ($("#destination").val("")) {
-        $("#destination").css("border", "2px solid red");
+function destinationAdder () {
+    var destinationList = [];
+    var destination = $("#destination");
+    if ($(destination).val() !== "") {
+       $(destinationList).push($(destination).val());
+       $(destination).css("border", "none");
+    } else if ($(destination).val("")) {
+        $(destination).css("border", "2px solid red");
     }
-    $("#destination").val("");
-});
+    $(destination).val("");
+    return destinationList;
+}
+$("#plus").on("click", destinationAdder);
 
 /**
+ *
  * Takes in a json object. Converts it to a CSV and downloads it.
  * @param {Object} json
  */
