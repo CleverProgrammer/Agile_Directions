@@ -66,6 +66,7 @@ function getEta(json) {
  */
 function showDirections(json) {
     "use strict";
+    // Shows the directions on the webpage after user inputs their origin and destination.
     var div = document.createElement("div");
     $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
     $(div).append("<b> FROM: </b> " + $("#origin").val() + "<br>");
@@ -114,9 +115,9 @@ function downloadJSON2CSV(json) {
     var encodedUri = encodeURI(csvContent);
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", "my_data.csv");
 
     // This will download the data file named "my_data.csv".showDirections(json);
+    link.setAttribute("download", "my_data.csv");
     link.click();
 }
 
@@ -139,6 +140,7 @@ function directionsResponse(request, success) {
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             // directionsDisplay.setDirections(response);
+            console.log("HI i am in the success if statement");
             success(response);
         } else {
             alert("Whoops, you got an error!");
@@ -151,11 +153,12 @@ function directionsResponse(request, success) {
  */
 function downloadDirectionsAsCSV() {
     // Get the user input
-    var origin = encodeURI($('#origin').val());
-    var destination = encodeURI($('#destination').val());
+    var origin = $('#origin').val();
+    var destination = $('#destination').val();
 
-    var request = directionsRequest(decodeURI(origin), decodeURI(destination));
-    directionsResponse(request, downloadJSON2CSV);
+    var request = directionsRequest(origin, destination);
+    directionsResponse(request, showDirections);
+    // directionsResponse(request, downloadJSON2CSV);
 }
 
 $(document).ready(function () {
