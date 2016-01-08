@@ -40,3 +40,14 @@ button:focus {
     color: coral;
     cursor: pointer;
 }
+
+#listDirections {
+    color: black;
+    padding: 20px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 1.2em;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}

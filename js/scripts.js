@@ -135,7 +135,7 @@ function directionsRequest(origin, destination) {
 function directionsResponse(request, success) {
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
-    directionsDisplay.setPanel(document.getElementById("listDirections"));
+    directionsDisplay.setPanel(document.getElementById('listDirections'));
     $("#listDirections").css("background-color", "white");
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
@@ -166,8 +166,6 @@ $(document).ready(function () {
 
     $("#getDirections").click(function () {
         downloadDirectionsAsCSV();
-        // var directionsDisplay = new google.maps.DirectionsRenderer();
-        // directionsDisplay.setPanel(document.getElementById('panel'));
     });
 
     // Recurring user input for destinations.
