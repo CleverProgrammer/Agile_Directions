@@ -15,8 +15,7 @@
  * @param {string} html
  * @returns {string|string}
  */
-function strip(html)
-{
+function strip(html) {
     var tmp = document.createElement("DIV");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
@@ -36,7 +35,7 @@ function getDirections(json) {
 
     steps.forEach(function (step) {
         directions.push(counter + ". " +
-            step.html_instructions + " for " + step.distance.text);
+            step.instructions + " for " + step.distance.text);
         counter += 1;
     });
 
@@ -64,93 +63,104 @@ function getEta(json) {
 function showDirections(json) {
     "use strict";
     // creates div, adds class, and appends the div
+
+    // Shows the directions on the webpage after user inputs their origin and destination.
     var div = document.createElement("div");
     $(div).addClass("directions col-xs-12 col-sm-8 col-sm-offset-2");
     $(div).append("<b> FROM: </b> " + $("#origin").val() + "<br>");
     $(div).append("<b>TO: </b>" + $("#destination").val() + "<br>");
     $(div).append("<em>It will take you " + getEta(json) + " to get there.</em> <p></p>");
     getDirections(json).forEach(function (item) {
-       $(div).append("<p>" + item + "</p>");
+        $(div).append("<p>" + item + "</p>");
     });
     $("#listDirections").append(div);
 }
+
+// Takes in recurring user input.
 var arr = [];
-$("#plus").on("click", function() {
-    if ($("#destination").val() !== "") {
-        console.log($("#destination").val());
-        arr.push($("#destination").val());
+$("#plus").on("click", function () {
+    var dest = $("#destination");
+    if ($(dest).val() !== "") {
+        console.log($(dest).val());
+        arr.push($(dest).val());
         console.log(arr);
-        $("#destination").css("border", "none");
-    } else if($("#destination").val("")){
-        $("#destination").css("border", "2px solid red");
+        $(dest).css("border", "none");
+    } else if ($(dest).val("")) {
+        $(dest).css("border", "2px solid red");
     }
-      $("#destination").val("");
+    $(dest).val("");
 });
 
+/**
+ * Takes in a json object. Converts it to a CSV and downloads it.
+ * @param {Object} json
+ */
+function downloadJSON2CSV(json) {
+    var directions = getDirections(json);
+    var csvContent = "data:text/csv;charset=utf-8,";
 
-function barPlot() {
-    var randomScalingFactor = function () {
-        return Math.round(Math.random() * 100)
+    // header
+    csvContent += "Directions\n";
+
+    directions.forEach(function (direction, index) {
+        csvContent += strip(direction + "\n");
+    });
+
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+
+    // This will download the data file named "my_data.csv".showDirections(json);
+    link.setAttribute("download", "my_data.csv");
+    link.click();
+}
+
+/**
+ * Takes in an encoded URI for origin and destination. It returns the request.
+ * @param {string} origin
+ * @param {string} destination
+ * @return {Object}
+ */
+function directionsRequest(origin, destination) {
+    return {
+        origin: origin,
+        destination: destination,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
-    var barChartData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [
-            {
-                fillColor: "rgba(220,220,220,0.5)",
-                strokeColor: "rgba(220,220,220,0.8)",
-                highlightFill: "rgba(220,220,220,0.75)",
-                highlightStroke: "rgba(220,220,220,1)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-            },
-            {
-                fillColor: "rgba(151,187,205,0.5)",
-                strokeColor: "rgba(151,187,205,0.8)",
-                highlightFill: "rgba(151,187,205,0.75)",
-                highlightStroke: "rgba(151,187,205,1)",
-                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-            }
-        ]
-    };
-    window.onload = function () {
-        var ctx = document.getElementById("canvas").getContext("2d");
-        window.myBar = new Chart(ctx).Bar(barChartData, {
-            responsive: true
-        });
-    }
+}
+
+function directionsResponse(request, success) {
+    var directionsService = new google.maps.DirectionsService();
+    directionsService.route(request, function (response, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+            // directionsDisplay.setDirections(response);
+            console.log("HI i am in the success if statement");
+            success(response);
+        } else {
+            alert("Whoops, you got an error!");
+        }
+    });
+}
+
+/**
+ * Downloads directions as a CSV file.
+ */
+function downloadDirectionsAsCSV() {
+    // Get the user input
+    var origin = $('#origin').val();
+    var destination = $('#destination').val();
+
+    var request = directionsRequest(origin, destination);
+    directionsResponse(request, showDirections);
+    // directionsResponse(request, downloadJSON2CSV);
 }
 
 $(document).ready(function () {
     "use strict";
-    // barPlot();
 
-    $("#getButton").click(function () {
-
-        // Get the user input
-        var origin = $('#origin').val().replace(/ /g, "%20");
-        var destination = $('#destination').val().replace(/ /g, "%20");
-
-        // Create the URL
-        var URL = "https://maps.googleapis.com/maps/api/directions/json?origin=" +
-            "" + origin + "&destination=" + destination;
-
-        // Obtain json object through GET request
-        $.getJSON(URL, function (json) {
-            var directions = getDirections(json);
-            var csvContent = "data:text/csv;charset=utf-8,";
-
-            // header
-            csvContent += "Directions\n";
-            directions.forEach(function (direction, index) {
-                csvContent += strip(direction + "\n");
-            });
-
-            var encodedUri = encodeURI(csvContent);
-            var link = document.createElement("a");
-            link.setAttribute("href", encodedUri);
-            link.setAttribute("download", "my_data.csv");
-            link.click(); // This will download the data file named "my_data.csv".
-
-            showDirections(json);
-        });
+    $("#getDirections").click(function () {
+        downloadDirectionsAsCSV();
+        // var directionsDisplay = new google.maps.DirectionsRenderer();
+        // directionsDisplay.setPanel(document.getElementById('panel'));
     });
 });
