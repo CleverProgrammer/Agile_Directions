@@ -82,19 +82,17 @@ function showDirections(json) {
  * @returns {Array}
  */
 
-function destinationAdder () {
-    var destinationList = [];
+function destinationAdder (destinations) {
     var destination = $("#destination");
     if ($(destination).val() !== "") {
-       $(destinationList).push($(destination).val());
+       destinations.push(destination.val());
        $(destination).css("border", "none");
     } else if ($(destination).val("")) {
         $(destination).css("border", "2px solid red");
     }
     $(destination).val("");
-    return destinationList;
+    return destinations;
 }
-$("#plus").on("click", destinationAdder);
 
 /**
  *
@@ -168,5 +166,12 @@ $(document).ready(function () {
         downloadDirectionsAsCSV();
         // var directionsDisplay = new google.maps.DirectionsRenderer();
         // directionsDisplay.setPanel(document.getElementById('panel'));
+    });
+
+    // Recurring user input for destinations.
+    var destinations = [];
+    $("#plus").click(function () {
+        destinationAdder(destinations);
+        console.log(destinations);
     });
 });
