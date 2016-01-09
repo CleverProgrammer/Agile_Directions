@@ -135,8 +135,15 @@ function directionsRequest(origin, destination) {
 function displayDirectionsReport(request) {
     var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
-    directionsDisplay.setPanel(document.getElementById('listDirections'));
-    $("#listDirections").css("background-color", "white");
+    var div = document.createElement("div");
+    directionsDisplay.setPanel(div);
+    $(div).css({
+        "background-color": "white",
+        "padding": "20px 20px",
+        "border-radius": "8px",
+        "margin-bottom": "20px"
+    });
+    $("#listDirections").append(div);
     directionsService.route(request, function (response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
