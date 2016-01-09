@@ -98,41 +98,23 @@ function destinationAdder(destinations, destinationButton) {
  */
 function downloadDirectionsAsCSV(allDestinations, allDirections) {
     var strippedDirections = [];
-    var counter = 0;
-    allDirections.forEach(function(directions) {
-        counter += 1;
+    allDirections.forEach(function (directions) {
         var tempArray = [];
         directions.forEach(function (direction) {
             tempArray.push(strip(direction));
         });
         strippedDirections.push(tempArray);
-        // strippedDirections.push(direction.map(strip));
     });
-    var newArray = strippedDirections[0].map(function(col, i) {
-        return strippedDirections.map(function(row) {
+    var newArray = strippedDirections[0].map(function (col, i) {
+        return strippedDirections.map(function (row) {
             return row[i]
         })
     });
-    console.log("STRIPPED DIRECTIONS -->", strippedDirections, ": outer loop completed ", counter, " times");
     var csvContent = "data:text/csv;charset=utf-8,";
-    var papaCsv = Papa.unparse({
+    csvContent += Papa.unparse({
         fields: allDestinations,
         data: newArray
     });
-    console.log("HEY", papaCsv);
-
-    /*
-    allDirections.forEach(function (directions, index) {
-        // header
-        csvContent += allDestinations[index] + "\n";
-        var data = directions.join("\n");
-        // csvContent += data + ",".repeat(index);
-        index += 1;
-    });
-    */
-    csvContent += papaCsv;
-    console.log(csvContent);
-
     var encodedUri = encodeURI(csvContent);
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
@@ -169,7 +151,7 @@ function displayDirectionsReport(request) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
         } else {
-            alert("Whoops, you got an error!");
+            alert("oops! You received a " + status + " error when trying to display directions.");
         }
     });
 }
@@ -189,11 +171,11 @@ function showDirections(origin, destinations) {
 }
 
 /**
- * Returns a list of lists containing all directions.
+ * Returns a list of lists containing all directions strings.
  * @param {string} origin
  * @param {array} destinations
  */
-function allAddressDirections(origin, destinations) {
+function downloadAllAddressDirections(origin, destinations) {
     var allDirections = [];
     console.log(origin);
     console.log(destinations);
@@ -202,24 +184,25 @@ function allAddressDirections(origin, destinations) {
         var directionsService = new google.maps.DirectionsService();
         directionsService.route(request, function (response, status) {
             if (status === google.maps.DirectionsStatus.OK) {
-                console.log("HI i am in the success if statement");
-                console.log(getDirections(response));
-                console.log("HERE");
                 allDirections.push(getDirections(response));
-                console.log(destinations);
-                console.log("1. CHECK IT IN THE IF COND -->", allDirections);
                 if (index === destinations.length - 1) {
                     downloadDirectionsAsCSV(destinations, allDirections);
                 }
+            } else if (status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+                alert("ERROR CAUGHT RED HANDED! You received a " + status + " error when trying to download directions.");
+                setTimeout(function () {
+                    console.log();
+                    allDirections.push(getDirections(response));
+                    console.log(status, " --> ", allDirections);
+                    if (index === destinations.length - 1) {
+                        downloadDirectionsAsCSV(destinations, allDirections);
+                    }
+                }, 200);
             } else {
-                alert("Whoops, you got an error!");
+                alert("oops! You received a " + status + " error when trying to download directions.");
             }
         });
-        console.log("187 -->", allDirections);
     });
-
-    console.log("2. CHECK IT UP -->", allDirections);
-    return allDirections;
 }
 
 $(document).ready(function () {
@@ -244,7 +227,7 @@ $(document).ready(function () {
 
     $("#getDirections").click(function () {
         showDirections(origin, destinations);
-        allAddressDirections(origin, destinations);
+        downloadAllAddressDirections(origin, destinations);
     });
 
 });
