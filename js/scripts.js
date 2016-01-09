@@ -98,13 +98,13 @@ function destinationAdder(destinations, destinationButton) {
  */
 function downloadDirectionsAsCSV(allDestinations, allDirections) {
     console.log("HI");
+
     console.log(allDestinations);
     console.log(allDirections);
     console.log("BYE");
-    return;
     var strippedDirections = [];
     allDirections.forEach(function(direction) {
-        strippedDirections.push(direction.map(strip) + "\n");
+        strippedDirections.push(direction.map(strip));
     });
     console.log(strippedDirections);
     var csvContent = "data:text/csv;charset=utf-8,";
