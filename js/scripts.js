@@ -97,19 +97,27 @@ function destinationAdder(destinations, destinationButton) {
  * @param {array} allDirections
  */
 function downloadDirectionsAsCSV(allDestinations, allDirections) {
-    console.log("HI");
-    console.log(allDestinations);
-    console.log(allDirections);
-    console.log("BYE");
     var strippedDirections = [];
-    allDirections.forEach(function(direction) {
-        strippedDirections.push(direction.map(strip) + "\n");
+    var counter = 0;
+    allDirections.forEach(function(directions) {
+        counter += 1;
+        var tempArray = [];
+        directions.forEach(function (direction) {
+            tempArray.push(strip(direction));
+        });
+        strippedDirections.push(tempArray);
+        // strippedDirections.push(direction.map(strip));
     });
-    console.log(strippedDirections);
+    var newArray = strippedDirections[0].map(function(col, i) {
+        return strippedDirections.map(function(row) {
+            return row[i]
+        })
+    });
+    console.log("STRIPPED DIRECTIONS -->", strippedDirections, ": outer loop completed ", counter, " times");
     var csvContent = "data:text/csv;charset=utf-8,";
     var papaCsv = Papa.unparse({
         fields: allDestinations,
-        data: strippedDirections
+        data: newArray
     });
     console.log("HEY", papaCsv);
 
@@ -236,9 +244,7 @@ $(document).ready(function () {
 
     $("#getDirections").click(function () {
         showDirections(origin, destinations);
-        console.log("line 215 -->", allAddressDirections(origin, destinations));
-        // console.log("CHECK IT UP -->", allDirections);
-        console.log("YOOOO");
+        allAddressDirections(origin, destinations);
     });
 
 });
