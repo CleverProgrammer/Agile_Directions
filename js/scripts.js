@@ -244,6 +244,7 @@ $(document).ready(function () {
 
     $("#getDirections").click(function () {
         showDirections(origin, destinations);
+        allAddressDirections(origin, destinations);
     });
 
 });
