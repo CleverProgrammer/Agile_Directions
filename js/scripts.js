@@ -101,6 +101,7 @@ function downloadDirectionsAsCSV(allDestinations, allDirections) {
     console.log(allDestinations);
     console.log(allDirections);
     console.log("BYE");
+    return;
     var strippedDirections = [];
     allDirections.forEach(function(direction) {
         strippedDirections.push(direction.map(strip) + "\n");
