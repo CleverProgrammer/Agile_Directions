@@ -1,5 +1,6 @@
 body {
     background-color: #2b669a;
+    z-index: 0;
 }
 
 h1 {
@@ -7,9 +8,6 @@ h1 {
     font-size: 3em;
 }
 
-.ui-autocomplete {
-    z-index: 1051 !important;
-}
 #originDiv {
     background-color: #F86440;
     padding: 10px 10px;
@@ -27,6 +25,10 @@ h1 {
 
 #destination {
     margin-bottom: 10px;
+}
+
+.pac-container {
+    z-index: 1051 !important;
 }
 
 button {
