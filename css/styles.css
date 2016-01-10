@@ -1,11 +1,32 @@
 body {
     background-color: #2b669a;
-    color: white;
 }
 
 h1 {
     color: white;
     font-size: 3em;
+}
+
+.ui-autocomplete {
+    z-index: 1051 !important;
+}
+#originDiv {
+    background-color: #F86440;
+    padding: 10px 10px;
+    opacity: .9;
+    color: white;
+    font-weight: bold;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+#originDiv > h3 {
+    font-size: 2em;
+}
+
+#destination {
+    margin-bottom: 10px;
 }
 
 button {
@@ -74,3 +95,8 @@ button:focus {
     background-color: #F6B33C;
     color: white !important;
 }
+
+.row h2 {
+    color: white;
+}
+
