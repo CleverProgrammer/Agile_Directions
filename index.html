@@ -1,1 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Website Google Project</title>
 
+  <!-- Javascript CDNs or JS files for libraries -->
+  <script src="js/jquery-1.11.3.min.js"></script>
+  <script src="js/jquery-ui.min.js"></script>
+  <script src="bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+  <script src="bower_components/papaparse/papaparse.min.js"></script>
+  <script src="bower_components/json5/lib/json5.js"></script>
+  <script src="bower_components/Chart.js/Chart.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/validate.js/0.9.0/validate.min.js"></script>
+  <!--
+  <script src="http://maps.google.com/maps/api/js?"></script>
+  -->
+
+  <script src="https://maps.googleapis.com/maps/api/js?&libraries=places&callback=initMap"
+          async defer></script>
+
+  <!-- Main Javascript file containing all the code -->
+  <script src="js/scripts.js"></script>
+
+  <!-- CSS Style Sheets -->
+  <link rel="stylesheet" href="bootstrap-3.3.6-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="shortcut icon" type="image/ico" href="photos/favIcon.png">
+
+</head>
+<body>
+<div class="modal fade in" id="originModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title text-center">Enter Your Origin Address </h2>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control input-lg" placeholder="Your Address" id="origin"/>
+        <div style="padding: 10px 10px"></div>
+        <div class="text-center">
+          <button class="btn btn-lg btn-primary" id="doneButton">Done</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<nav class="navbar navbar-fixed-top">
+  <h1 class="text-center">All Your Directions In One Spot</h1>
+</nav>
+<div class="container-full" id="mainContainer">
+  <!-- Origin Address Modal -->
+  <bshr>
+  <div class="row row-content">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+      <div class="text-center" id="originDiv">
+        <h3 id="originParagraph">Origin Address Required (Refresh Page)</h3>
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+      <div class="text-center">
+        <h2>To:</h2>
+        <p>(Click "add+" to add multiple destinations)</p>
+      </div>
+    </div>
+    <div style="padding: 20px 20px"></div>
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+      <div>
+        <input id="destination" type="text" class="form-control input-lg" placeholder="Destination">
+      </div>
+    </div>
+    <div class="col-xs-12 col-sm-2 col-sm-offset-5">
+      <div class="text-center">
+        <button class="btn btn-lg btn-default" id="plus">Add <i class="glyphicon glyphicon-plus"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 40px 40px"></div>
+  <div class="row row-content">
+    <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+      <div class="row row-content">
+        <div class="col-xs-12 col-sm-6">
+          <div class="text-center">
+            <button class="btn btn-lg" id="getDirections">Get Directions</button>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <div class="text-center">
+            <button class="btn btn-lg" id="downloadDirections">Download As Excel <i class="glyphicon glyphicon-download-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="padding: 40px 40px"></div>
+</div>
+
+<div style="padding: 20px 20px">
+
+</div>
+<footer class="col-xs-12">
+  <div class="text-center">
+    <p>@2015 <a href="http://github.com/developertenzin">DeveloperTenzin</a> && <a href="http://github.com/qazipython">QaziPython</a></p>
+  </div>
+</footer>
+</body>
+</html>

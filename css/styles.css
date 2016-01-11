@@ -1,0 +1,116 @@
+body {
+    background-color: white;
+    z-index: 0;
+    padding-top: 77px;
+}
+
+.navbar {
+    background-color: #2C3E50;
+    color: white;
+}
+#mainContainer {
+   background-color: #ECF0F1;
+}
+h1 {
+    font-size: 3em;
+}
+
+#originDiv {
+    padding: 10px 10px;
+    opacity: .9;
+    color: black;
+    font-weight: bold;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+#originDiv > h3 {
+    font-size: 2em;
+}
+
+#destination {
+    margin-bottom: 10px;
+}
+
+.pac-container {
+    z-index: 1051 !important;
+}
+
+button {
+    background-color: #677077;
+    color: white;
+    font-weight: bold;
+}
+
+button:hover,
+button:focus {
+    color: lightgray !important;
+}
+
+.directions {
+    background-color: whitesmoke;
+    color: #5A5A5A;
+    padding: 20px 20px;
+    font-size: 1.5em;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+#plus {
+    outline: none;
+}
+#plus:hover, #plus:focus {
+    background-color: #18BC9C;
+    color: white !important;
+    outline: none;
+}
+
+.listDirections {
+    background-color: white;
+    color: black;
+    padding: 20px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-bottom: 25px;
+    font-size: 1.2em;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+}
+
+#getDirections {
+    background-color: #18BC9C;
+    width: 100%;
+    height: 3em;
+    font-size: 1.8em;
+    line-height: 1.5px;
+    font-weight: bold;
+}
+
+#getDirections:hover, #getDirections:focus {
+    color: black !important;
+}
+
+#downloadDirections {
+    background-color: #18BC9C;
+    width: 100%;
+    height: 3em;
+    font-size: 1.8em;
+    line-height: 1.5;
+    font-weight: bold;
+}
+
+#downloadDirections:hover, #downloadDirections:focus{
+    color: black !important;
+}
+
+.row h2 {
+    color: black;
+}
+
+.row-footer {
+    background-color: #333333;
+}

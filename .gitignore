@@ -11,7 +11,8 @@ Session.vim
 # SECRET API KEY
 
 # PLAYGROUND
-js/playgroud.js
+playground.html
+js/playground.js
 
 *.iml
 
