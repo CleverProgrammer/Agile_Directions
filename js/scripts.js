@@ -312,4 +312,3 @@ $(document).ready(function () {
   inputGrabber();
   triggerActions();
 });
->>>>>>> feature
