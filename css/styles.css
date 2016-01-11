@@ -1,18 +1,35 @@
 body {
-    background-color: #2b669a;
+    background-color: white;
     z-index: 0;
+    padding-top: 77px;
 }
 
-h1 {
+.navbar {
+    background-color: #2C3E50;
     color: white;
+}
+#mainContainer {
+   background-color: #ECF0F1;
+}
+h1 {
     font-size: 3em;
 }
 
+.table {
+    display: table;
+    height:100%;
+    width: 80%;
+    margin: 0 auto;
+}
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 #originDiv {
-    background-color: #F86440;
     padding: 10px 10px;
     opacity: .9;
-    color: white;
+    color: black;
     font-weight: bold;
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
@@ -32,7 +49,7 @@ h1 {
 }
 
 button {
-    background-color: #204056;
+    background-color: #677077;
     color: white;
     font-weight: bold;
 }
@@ -54,11 +71,12 @@ button:focus {
 }
 
 #plus {
-    opacity: 0.9;
+    outline: none;
 }
-
-#plus:hover {
-    opacity: 1;
+#plus:hover, #plus:focus {
+    background-color: #18BC9C;
+    color: white !important;
+    outline: none;
 }
 
 #listDirections {
@@ -73,6 +91,7 @@ button:focus {
 }
 
 #getDirections {
+    background-color: #18BC9C;
     width: 100%;
     height: 3em;
     font-size: 2.2em;
@@ -80,12 +99,12 @@ button:focus {
     font-weight: bold;
 }
 
-#getDirections:hover {
-    background-color: #F6B33C;
-    color: white !important;
+#getDirections:hover, #getDirections:focus {
+    color: black !important;
 }
 
 #downloadDirections {
+    background-color: #18BC9C;
     width: 100%;
     height: 3em;
     font-size: 2.2em;
@@ -93,12 +112,14 @@ button:focus {
     font-weight: bold;
 }
 
-#downloadDirections:hover {
-    background-color: #F6B33C;
-    color: white !important;
+#downloadDirections:hover, #downloadDirections:focus{
+    color: black !important;
 }
 
 .row h2 {
-    color: white;
+    color: black;
 }
 
+.row-footer {
+    background-color: #333333;
+}

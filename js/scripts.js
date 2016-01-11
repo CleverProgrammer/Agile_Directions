@@ -213,6 +213,43 @@ function allAddressDirections(origin, destinations) {
   console.log("2. CHECK IT UP -->", allDirections);
   return allDirections;
 }
+/**
+ * Automatically displays modal every time browser loads. Then takes the user input and verifies input value exists.
+ * Then outputs the input on the page.
+ */
+function inputGrabber () {
+  $("#originModal").modal();
+  $("#doneButton").click(function () {
+    if ($("#origin").val() === "") {
+      $("#origin").css("border", "2px solid red");
+    } else {
+      $("#originModal").modal("hide");
+      $("#originParagraph").html($("#origin").val());
+    }
+  });
+  $('#origin').on('keydown', function (e) {
+      if (e.which == 13) {
+        if ($("#origin").val() === "") {
+          $("#origin").css("border", "2px solid red");
+        } else {
+          $("#originModal").modal("hide");
+          $("#originParagraph").html($("#origin").val());
+          return false;
+       }
+      }
+  });
+}
+
+/**
+ * Gets the current city and outputs it if nothing is entered for origin address.
+ */
+function currentCity () {
+  $.getJSON('https://freegeoip.net/json/').done (function(location){
+    console.log(location.city);
+    $("#originParagraph").html(location.city);
+    $("#origin").val(location.city);
+  });
+}
 
 $(document).ready(function () {
   "use strict";
@@ -222,11 +259,9 @@ $(document).ready(function () {
   var destinationButton = $("#destination");
   var destinations = [];
   var clicks = 0;
-  $("#originModal").modal();
-  $("#doneButton").click(function () {
-    $("#originModal").modal("hide");
-    $("#originParagraph").html($("#origin").val());
-  });
+  // grabs origin address from inputModal.
+  currentCity();
+  inputGrabber();
   $("#plus").click(function () {
     // Store the origin address only once.
     clicks += 1;

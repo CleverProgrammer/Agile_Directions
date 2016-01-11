@@ -31,11 +31,9 @@
 
 </head>
 <body>
-<div class="container">
-  <!-- Origin Address Modal -->
-  <div class="modal fade in" id="originModal" role="dialog">
-    <div class="modal-dialog">
-      <!--Modal content -->
+<div class="modal fade in" id="originModal" role="dialog">
+  <div class="table">
+    <div class="table-cell">
       <div class="modal-content">
         <div class="modal-header">
           <h2 class="modal-title text-center">Enter Your Origin Address </h2>
@@ -49,32 +47,36 @@
         </div>
       </div>
     </div>
+    </div>
   </div>
-
-
+</div>
+<nav class="navbar navbar-fixed-top">
   <h1 class="text-center">All Your Directions In One Spot</h1>
-  <br>
+</nav>
+<div class="container-full" id="mainContainer">
+  <!-- Origin Address Modal -->
+  <bshr>
   <div class="row row-content">
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
       <div class="text-center" id="originDiv">
-        <h3 id="originParagraph">8844 N Wisner St.</h3>
+        <h3 id="originParagraph"></h3>
       </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
       <div class="text-center">
         <h2>To:</h2>
+        <p>(Click "add+" to add multiple destinations)</p>
       </div>
     </div>
     <div style="padding: 20px 20px"></div>
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
       <div>
-        <input id="destination" type="text" class="form-control input-lg" placeholder="Destination"
-               value="7024 carol ave">
+        <input id="destination" type="text" class="form-control input-lg" placeholder="Destination">
       </div>
     </div>
     <div class="col-xs-12 col-sm-2 col-sm-offset-5">
       <div class="text-center">
-        <button class="btn btn-lg" id="plus">Add <i class="glyphicon glyphicon-plus"></i></button>
+        <button class="btn btn-lg btn-default" id="plus">Add <i class="glyphicon glyphicon-plus"></i></button>
       </div>
     </div>
   </div>
@@ -90,7 +92,7 @@
         </div>
         <div class="col-xs-12 col-sm-6">
           <div class="text-center">
-            <button class="btn btn-lg" id="downloadDirections">Download <i class="glyphicon glyphicon-download-alt"></i>
+            <button class="btn btn-lg" id="downloadDirections">Download .CSV<i class="glyphicon glyphicon-download-alt"></i>
             </button>
           </div>
         </div>
@@ -102,5 +104,14 @@
   <div id="listDirections">
   </div>
 </div>
+
+<div style="padding: 20px 20px">
+
+</div>
+<footer class="col-xs-12">
+  <div class="text-center">
+    <p>@2015 <a href="http://github.com/developertenzin">DeveloperTenzin</a> && <a href="http://github.com/qazipython">QaziPython</a></p>
+  </div>
+</footer>
 </body>
 </html>
