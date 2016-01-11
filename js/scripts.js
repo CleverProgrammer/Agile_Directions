@@ -265,6 +265,7 @@ function currentCity() {
  * This function includes all the click actions add, directions and download buttons.
  */
 function triggerActions() {
+  "use strict";
   // origin address is stored here after the first plus sign button click.
   var origin;
 
@@ -282,21 +283,21 @@ function triggerActions() {
   });
 
   /* Enter key function has a bug. On pause for now.
-  $("#destination").on("keydown", function(e) {
-    if (e.which === 13 || e.keyCode === 13) {
-      if ($("#destination").val() === "") {
-        $("#destination").css("border", "2px solid red");
-      } else {
-        clicks += 1;
-        if (clicks === 1) {
-          origin = $("#origin").val();
-        }
-        destinationAdder(destinations, destinationButton);
-        return false;
-      }
-    }
-  });
-  */
+   $("#destination").on("keydown", function(e) {
+   if (e.which === 13 || e.keyCode === 13) {
+   if ($("#destination").val() === "") {
+   $("#destination").css("border", "2px solid red");
+   } else {
+   clicks += 1;
+   if (clicks === 1) {
+   origin = $("#origin").val();
+   }
+   destinationAdder(destinations, destinationButton);
+   return false;
+   }
+   }
+   });
+   */
 
   $("#getDirections").click(function () {
     showDirections(origin, destinations);
@@ -312,3 +313,4 @@ $(document).ready(function () {
   inputGrabber();
   triggerActions();
 });
+

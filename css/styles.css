@@ -9,7 +9,7 @@ body {
     color: white;
 }
 #mainContainer {
-   background-color: #ECF0F1;
+    background-color: #ECF0F1;
 }
 h1 {
     font-size: 3em;
@@ -114,3 +114,4 @@ button:focus {
 .row-footer {
     background-color: #333333;
 }
+
