@@ -32,21 +32,18 @@
 </head>
 <body>
 <div class="modal fade in" id="originModal" role="dialog">
-  <div class="table">
-    <div class="table-cell">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h2 class="modal-title text-center">Enter Your Origin Address </h2>
-        </div>
-        <div class="modal-body">
-          <input type="text" class="form-control input-lg" placeholder="Your Address" id="origin"/>
-          <div style="padding: 10px 10px"></div>
-          <div class="text-center">
-            <button class="btn btn-lg btn-primary" id="doneButton">Done</button>
-          </div>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title text-center">Enter Your Origin Address </h2>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control input-lg" placeholder="Your Address" id="origin"/>
+        <div style="padding: 10px 10px"></div>
+        <div class="text-center">
+          <button class="btn btn-lg btn-primary" id="doneButton">Done</button>
         </div>
       </div>
-    </div>
     </div>
   </div>
 </div>
@@ -59,7 +56,7 @@
   <div class="row row-content">
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
       <div class="text-center" id="originDiv">
-        <h3 id="originParagraph"></h3>
+        <h3 id="originParagraph">Origin Address Required (Refresh Page)</h3>
       </div>
     </div>
     <div class="col-xs-12 col-sm-6 col-sm-offset-3">
@@ -92,7 +89,7 @@
         </div>
         <div class="col-xs-12 col-sm-6">
           <div class="text-center">
-            <button class="btn btn-lg" id="downloadDirections">Download .CSV<i class="glyphicon glyphicon-download-alt"></i>
+            <button class="btn btn-lg" id="downloadDirections">Download As Excel <i class="glyphicon glyphicon-download-alt"></i>
             </button>
           </div>
         </div>
@@ -101,8 +98,6 @@
   </div>
 
   <div style="padding: 40px 40px"></div>
-  <div id="listDirections">
-  </div>
 </div>
 
 <div style="padding: 20px 20px">

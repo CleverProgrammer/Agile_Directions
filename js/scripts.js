@@ -97,21 +97,29 @@ function destinationAdder(destinations, destinationButton) {
  * @param {array} allDirections
  */
 function downloadDirectionsAsCSV(allDestinations, allDirections) {
-  console.log("HI");
-  console.log(allDestinations);
-  console.log(allDirections);
-  console.log("BYE");
   var strippedDirections = [];
-  allDirections.forEach(function (direction) {
-    strippedDirections.push(direction.map(strip) + "\n");
+  var counter = 0;
+  allDirections.forEach(function (directions) {
+    counter += 1;
+    var tempArray = [];
+    directions.forEach(function (direction) {
+      tempArray.push(strip(direction));
+    });
+    strippedDirections.push(tempArray);
+    // strippedDirections.push(direction.map(strip));
   });
-  console.log(strippedDirections);
+  var newArray = strippedDirections[0].map(function (col, i) {
+    return strippedDirections.map(function (row) {
+      return row[i]
+    })
+  });
+
   var csvContent = "data:text/csv;charset=utf-8,";
   var papaCsv = Papa.unparse({
     fields: allDestinations,
-    data: strippedDirections
+    data: newArray
   });
-  console.log("HEY", papaCsv);
+
 
   /*
    allDirections.forEach(function (directions, index) {
@@ -123,7 +131,7 @@ function downloadDirectionsAsCSV(allDestinations, allDirections) {
    });
    */
   csvContent += papaCsv;
-  console.log(csvContent);
+
 
   var encodedUri = encodeURI(csvContent);
   var link = document.createElement("a");
@@ -155,8 +163,12 @@ function directionsRequest(origin, destination) {
 function displayDirectionsReport(request) {
   var directionsService = new google.maps.DirectionsService();
   var directionsDisplay = new google.maps.DirectionsRenderer();
-  directionsDisplay.setPanel(document.getElementById('listDirections'));
-  $("#listDirections").css("background-color", "white");
+  var div = document.createElement("div");
+  var largerDiv = document.createElement("div");
+  directionsDisplay.setPanel(div);
+  $(largerDiv).addClass("listDirections");
+  $(largerDiv).append(div);
+  $("#mainContainer").append(largerDiv);
   directionsService.route(request, function (response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
@@ -187,19 +199,18 @@ function showDirections(origin, destinations) {
  */
 function allAddressDirections(origin, destinations) {
   var allDirections = [];
-  console.log(origin);
-  console.log(destinations);
+
+
   destinations.forEach(function (destination, index) {
     var request = directionsRequest(origin, destination);
     var directionsService = new google.maps.DirectionsService();
     directionsService.route(request, function (response, status) {
       if (status === google.maps.DirectionsStatus.OK) {
-        console.log("HI i am in the success if statement");
-        console.log(getDirections(response));
-        console.log("HERE");
+
+
         allDirections.push(getDirections(response));
-        console.log(destinations);
-        console.log("1. CHECK IT IN THE IF COND -->", allDirections);
+
+
         if (index === destinations.length - 1) {
           downloadDirectionsAsCSV(destinations, allDirections);
         }
@@ -207,18 +218,20 @@ function allAddressDirections(origin, destinations) {
         alert("Whoops, you got an error!");
       }
     });
-    console.log("187 -->", allDirections);
+
   });
 
-  console.log("2. CHECK IT UP -->", allDirections);
+
   return allDirections;
 }
+
 /**
  * Automatically displays modal every time browser loads. Then takes the user input and verifies input value exists.
  * Then outputs the input on the page.
  */
-function inputGrabber () {
+function inputGrabber() {
   $("#originModal").modal();
+  $('#originModal').modal({backdrop: 'static', keyboard: false})
   $("#doneButton").click(function () {
     if ($("#origin").val() === "") {
       $("#origin").css("border", "2px solid red");
@@ -228,59 +241,79 @@ function inputGrabber () {
     }
   });
   $('#origin').on('keydown', function (e) {
-      if (e.which == 13) {
-        if ($("#origin").val() === "") {
-          $("#origin").css("border", "2px solid red");
-        } else {
-          $("#originModal").modal("hide");
-          $("#originParagraph").html($("#origin").val());
-          return false;
-       }
+    if (e.which === 13 || e.keyCode === 13) {
+      if ($("#origin").val() === "") {
+        $("#origin").css("border", "2px solid red");
+      } else {
+        $("#originModal").modal("hide");
+        $("#originParagraph").html($("#origin").val());
+        return false;
       }
+    }
   });
 }
 
 /**
- * Gets the current city and outputs it if nothing is entered for origin address.
+ * Gets the current city and outputs it if nothing is entered for origin address. Currently not used.
  */
-function currentCity () {
-  $.getJSON('https://freegeoip.net/json/').done (function(location){
-    console.log(location.city);
-    $("#originParagraph").html(location.city);
-    $("#origin").val(location.city);
+function currentCity() {
+  "use strict";
+  $.getJSON('https://freegeoip.net/json/').done(function (location) {
+    if (!($("#origin").val())) {
+      $("#originParagraph").html(location.city);
+      $("#origin").val(location.city);
+    }
   });
 }
 
-$(document).ready(function () {
-  "use strict";
+/**
+ * This function includes all the click actions add, directions and download buttons.
+ */
+function triggerActions() {
   // origin address is stored here after the first plus sign button click.
   var origin;
+
   // Recurring user input for destinations.
   var destinationButton = $("#destination");
   var destinations = [];
   var clicks = 0;
-  // grabs origin address from inputModal.
-  currentCity();
-  inputGrabber();
   $("#plus").click(function () {
     // Store the origin address only once.
     clicks += 1;
     if (clicks === 1) {
       origin = $("#origin").val();
-      console.log(origin);
     }
     destinationAdder(destinations, destinationButton);
-    console.log(destinations);
   });
+
+  /* Enter key function has a bug. On pause for now.
+  $("#destination").on("keydown", function(e) {
+    if (e.which === 13 || e.keyCode === 13) {
+      if ($("#destination").val() === "") {
+        $("#destination").css("border", "2px solid red");
+      } else {
+        clicks += 1;
+        if (clicks === 1) {
+          origin = $("#origin").val();
+        }
+        destinationAdder(destinations, destinationButton);
+        return false;
+      }
+    }
+  });
+  */
 
   $("#getDirections").click(function () {
     showDirections(origin, destinations);
-    console.log("line 215 -->", allAddressDirections(origin, destinations));
-    // console.log("CHECK IT UP -->", allDirections);
-    console.log("YOOOO");
   });
 
+  $("#downloadDirections").click(function () {
+    allAddressDirections(origin, destinations);
+  });
+}
+
+$(document).ready(function () {
+  "use strict";
+  inputGrabber();
+  triggerActions();
 });
-
-
-
