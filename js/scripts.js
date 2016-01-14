@@ -234,6 +234,7 @@ function currentCity(origin, originParagraph, url) {
 $(document).ready(function () {
   "use strict";
   // Initializing all HTML attributes.
+  // Technology is great, but it has made us dependent on it to the point we can't remember simple directions to a friend's house, or more importantly to a workplace! So what would you do if the network connection or the phone battery were to die on you and you were navigating to a location!? This is why we have designed Agile Directions for you so you can download step by step directions to all your commonly visited places for offline access on a click of a button and all in once place! You can then print out those directions for your convenience and keep them as a backup in your car for emergency situations like your phone dying on you!
   var origin = $("#origin");
   var modal = $("#originModal");
   var originParagraph = $("#originParagraph");
@@ -270,10 +271,6 @@ $(document).ready(function () {
       } else {
         alert(status);
       }
-    });
-
-    $("#getDirections").click(function () {
-      // showDirections(origin, destinations);
     });
 
     $("#downloadDirections").click(function () {
