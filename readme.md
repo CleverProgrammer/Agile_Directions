@@ -15,4 +15,3 @@ The goal of this project is to create a website that uses the Google Maps API in
 - [X] Change Plus Sign to an Add Button and added a glyphicon-plus along with it. (@DeveloperTenzin)
 - [X] Add Input Modal for user's origin Address (@DeveloperTenzin)
 - [X] Pull data from Freegeoip to get current city location. No API key needed. (@DeveloperTenzin)
-- [X] Assign getDirections and Download functionalities to appropriate buttons. (@DeveloperTenzin)
