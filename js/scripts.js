@@ -147,7 +147,7 @@ function directionsRequest(origin, destination) {
 }
 
 /**
- * Take in as input a request object and a success function.
+ * Displays step by step directions for one address.
  * @param {Object} request
  */
 function displayDirectionsReport(request) {
@@ -253,8 +253,19 @@ $(document).ready(function () {
     allDirections.push("PLACEHOLDER");
     var request = directionsRequest(origin, destinations[destinations.length - 1]);
     var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+
+    // HTML STUFF
+    var div = document.createElement("div");
+    var largerDiv = document.createElement("div");
+    directionsDisplay.setPanel(div);
+    $(largerDiv).addClass("listDirections");
+    $(largerDiv).append(div);
+    $("#mainContainer").append(largerDiv);
+
     directionsService.route(request, function (response, status) {
       if (status === google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
         allDirections[index] = getDirections(response);
         console.log("allDirections -->", allDirections);
       } else {
@@ -263,7 +274,7 @@ $(document).ready(function () {
     });
 
     $("#getDirections").click(function () {
-      showDirections(origin, destinations);
+      // showDirections(origin, destinations);
     });
 
     $("#downloadDirections").click(function () {

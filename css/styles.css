@@ -44,7 +44,6 @@ input:focus {
 
 .btn {
     white-space: normal;
-    -ms-word-wrap:;
     word-wrap: break-word;
 }
 
