@@ -42,6 +42,22 @@ h1 {
     font-size: 1.3em;
 }
 
+#description {
+    font-size: 1.5em;
+    background: #f9f3ea;
+    border: 10px solid #2C3E50;
+    color: #709595;
+    font-family: ‘Courier New’, Courier, monospace;
+}
+
+p { color: #111;
+    font-family: 'Open Sans',
+    sans-serif;
+    font-size: 16px;
+    line-height: 28px;
+    margin: 0 0 48px;
+}
+
 .pac-container {
     z-index: 1051 !important;
 }
