@@ -5,6 +5,9 @@
 // The following request returns driving directions from Toronto, Ontario to Montreal, Quebec:
 // https://maps.googleapis.com/maps/api/directions/json?origin=Toronto&destination=Montreal&key=YOUR_API_KEY
 
+// TODO use this for displaying the current user address if they leave origin field empty.
+var freegoipURL = 'https://freegeoip.net/json/';
+
 /**
  * Asynchronous function that turns the input FROM and TO fields into
  * autocomplete.
@@ -101,32 +104,24 @@ function downloadDirectionsAsCSV(allDestinations, allDirections) {
       tempArray.push(strip(direction));
     });
     strippedDirections.push(tempArray);
-    // strippedDirections.push(direction.map(strip));
   });
-  var newArray = strippedDirections[0].map(function (col, i) {
+
+  var longest = 0;
+  allDirections.forEach(function (arr, i) {
+    if (arr.length > allDirections[longest].length) longest = i;
+  });
+
+  var newArray = strippedDirections[longest].map(function (col, i) {
     return strippedDirections.map(function (row) {
       return row[i]
     })
   });
 
   var csvContent = "data:text/csv;charset=utf-8,";
-  var papaCsv = Papa.unparse({
+  csvContent += Papa.unparse({
     fields: allDestinations,
     data: newArray
   });
-
-
-  /*
-   allDirections.forEach(function (directions, index) {
-   // header
-   csvContent += allDestinations[index] + "\n";
-   var data = directions.join("\n");
-   // csvContent += data + ",".repeat(index);
-   index += 1;
-   });
-   */
-  csvContent += papaCsv;
-
 
   var encodedUri = encodeURI(csvContent);
   var link = document.createElement("a");
@@ -165,10 +160,10 @@ function displayDirectionsReport(request) {
   $(largerDiv).append(div);
   $("#mainContainer").append(largerDiv);
   directionsService.route(request, function (response, status) {
-    if (status == google.maps.DirectionsStatus.OK) {
+    if (status === google.maps.DirectionsStatus.OK) {
       directionsDisplay.setDirections(response);
     } else {
-      alert("Whoops, you got an error!");
+      alert("Whoops, " + status + " you got an error!");
     }
   });
 }
@@ -188,60 +183,32 @@ function showDirections(origin, destinations) {
 }
 
 /**
- * Returns a list of lists containing all directions.
- * @param {string} origin
- * @param {array} destinations
- */
-function allAddressDirections(origin, destinations) {
-  var allDirections = [];
-
-
-  destinations.forEach(function (destination, index) {
-    var request = directionsRequest(origin, destination);
-    var directionsService = new google.maps.DirectionsService();
-    directionsService.route(request, function (response, status) {
-      if (status === google.maps.DirectionsStatus.OK) {
-
-
-        allDirections.push(getDirections(response));
-
-
-        if (index === destinations.length - 1) {
-          downloadDirectionsAsCSV(destinations, allDirections);
-        }
-      } else {
-        alert("Whoops, you got an error!");
-      }
-    });
-
-  });
-
-
-  return allDirections;
-}
-
-/**
  * Automatically displays modal every time browser loads. Then takes the user input and verifies input value exists.
  * Then outputs the input on the page.
+ * @param {Element} modal
+ * @param {Element} doneButton
+ * @param {Element} origin
+ * @param {Element} originParagraph
  */
-function inputGrabber() {
-  $("#originModal").modal();
-  $('#originModal').modal({backdrop: 'static', keyboard: false})
-  $("#doneButton").click(function () {
-    if ($("#origin").val() === "") {
-      $("#origin").css("border", "2px solid red");
+function displayOrigin(modal, doneButton,
+                       origin, originParagraph) {
+  modal.modal();
+  modal.modal({backdrop: 'static', keyboard: false});
+  doneButton.click(function () {
+    if (origin.val() === "") {
+      origin.css("border", "2px solid red");
     } else {
-      $("#originModal").modal("hide");
-      $("#originParagraph").html($("#origin").val());
+      modal.modal("hide");
+      originParagraph.html(origin.val());
     }
   });
-  $('#origin').on('keydown', function (e) {
+  origin.on('keydown', function (e) {
     if (e.which === 13 || e.keyCode === 13) {
-      if ($("#origin").val() === "") {
-        $("#origin").css("border", "2px solid red");
+      if (origin.val() === "") {
+        origin.css("border", "2px solid red");
       } else {
-        $("#originModal").modal("hide");
-        $("#originParagraph").html($("#origin").val());
+        modal.modal("hide");
+        originParagraph.html(origin.val());
         return false;
       }
     }
@@ -249,68 +216,58 @@ function inputGrabber() {
 }
 
 /**
- * Gets the current city and outputs it if nothing is entered for origin address. Currently not used.
+ * Displays the current city to the user if the user leaves the origin input field empty.
+ * @param {Element} origin
+ * @param {Element} originParagraph
+ * @param {string} url --> 'https://freegeoip.net/json/'
  */
-function currentCity() {
+function currentCity(origin, originParagraph, url) {
   "use strict";
-  $.getJSON('https://freegeoip.net/json/').done(function (location) {
-    if (!($("#origin").val())) {
-      $("#originParagraph").html(location.city);
-      $("#origin").val(location.city);
+  $.getJSON(url).done(function (location) {
+    if (!(origin.val())) {
+      originParagraph.html(location.city);
+      origin.val(location.city);
     }
-  });
-}
-
-/**
- * This function includes all the click actions for add, directions and download buttons.
- */
-function triggerActions() {
-  "use strict";
-  // origin address is stored here after the first plus sign button click.
-  var origin;
-
-  // Recurring user input for destinations.
-  var destinationButton = $("#destination");
-  var destinations = [];
-  var clicks = 0;
-  $("#plus").click(function () {
-    // Store the origin address only once.
-    clicks += 1;
-    if (clicks === 1) {
-      origin = $("#origin").val();
-    }
-    destinationAdder(destinations, destinationButton);
-  });
-
-  /* Enter key function has a bug. On pause for now.
-   $("#destination").on("keydown", function(e) {
-   if (e.which === 13 || e.keyCode === 13) {
-   if ($("#destination").val() === "") {
-   $("#destination").css("border", "2px solid red");
-   } else {
-   clicks += 1;
-   if (clicks === 1) {
-   origin = $("#origin").val();
-   }
-   destinationAdder(destinations, destinationButton);
-   return false;
-   }
-   }
-   });
-   */
-
-  $("#getDirections").click(function () {
-    showDirections(origin, destinations);
-  });
-
-  $("#downloadDirections").click(function () {
-    allAddressDirections(origin, destinations);
   });
 }
 
 $(document).ready(function () {
   "use strict";
-  inputGrabber();
-  triggerActions();
-});
+  // Initializing all HTML attributes.
+  var origin = $("#origin");
+  var modal = $("#originModal");
+  var originParagraph = $("#originParagraph");
+  var doneButton = $("#doneButton");
+  var destinationButton = $("#destination");
+  displayOrigin(modal, doneButton, origin, originParagraph);
 
+  var allDirections = [];
+  var destinations = [];
+  var clicks = 0;
+  $("#plus").click(function () {
+    origin = $("#origin").val();
+    destinationAdder(destinations, destinationButton);
+
+    // TODO add this to the main gh-pages most updated one.
+    var index = allDirections.length;
+    allDirections.push("PLACEHOLDER");
+    var request = directionsRequest(origin, destinations[destinations.length - 1]);
+    var directionsService = new google.maps.DirectionsService();
+    directionsService.route(request, function (response, status) {
+      if (status === google.maps.DirectionsStatus.OK) {
+        allDirections[index] = getDirections(response);
+        console.log("allDirections -->", allDirections);
+      } else {
+        alert(status);
+      }
+    });
+
+    $("#getDirections").click(function () {
+      showDirections(origin, destinations);
+    });
+
+    $("#downloadDirections").click(function () {
+      downloadDirectionsAsCSV(destinations, allDirections);
+    });
+  });
+});
