@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Quick Map</title>
+    <title>Agile Directions</title>
 
     <!-- Javascript CDNs or JS files for libraries -->
     <script src="js/jquery-1.11.3.min.js"></script>
@@ -48,7 +48,7 @@
     </div>
 </div>
 <nav class="navbar navbar-fixed-top">
-    <h1 class="text-center">QuickMap</h1>
+    <h1 class="text-center">Agile Directions</h1>
 </nav>
 <div class="container-full" id="mainContainer">
     <!-- Origin Address Modal -->
@@ -58,10 +58,10 @@
                 <h3 id="originParagraph">Origin Address Required (Refresh Page)</h3>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+        <div class="col-xs-12 col-sm-6 col-sm-offset-3" style="margin-bottom: 45px">
             <div class="text-center">
                 <h2>To:</h2>
-                <p>(Click "add+" to add multiple destinations)</p>
+                <p id="blind">(Click "Add+" to add multiple destinations)</p>
             </div>
         </div>
         <div style="padding: 20px 20px"></div>
@@ -81,12 +81,7 @@
     <div class="row row-content">
         <div class="col-xs-12 col-sm-6 col-sm-offset-3">
             <div class="row row-content">
-                <div class="col-xs-12 col-sm-6">
-                    <div class="text-center">
-                        <button class="btn btn-lg" id="getDirections">Get Directions</button>
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-6">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3">
                     <div class="text-center">
                         <button class="btn btn-lg" id="downloadDirections">Download As Excel <i
                                 class="glyphicon glyphicon-download-alt"></i>
@@ -105,7 +100,7 @@
 </div>
 <footer class="col-xs-12">
     <div class="text-center">
-        <p>@2015 <a href="http://github.com/developertenzin">DeveloperTenzin</a> && <a
+        <p>@2015 <a href="http://github.com/developertenzin">DeveloperTenzin</a> and <a
                 href="http://github.com/qazipython">QaziPython</a></p>
     </div>
 </footer>

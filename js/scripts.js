@@ -267,7 +267,6 @@ $(document).ready(function () {
       if (status === google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
         allDirections[index] = getDirections(response);
-        console.log("allDirections -->", allDirections);
       } else {
         alert(status);
       }

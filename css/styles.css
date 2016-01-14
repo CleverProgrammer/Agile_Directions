@@ -2,15 +2,20 @@ body {
     background-color: white;
     z-index: 0;
     padding-top: 77px;
+    max-width: 2024px;
+    margin: 0 auto;
 }
 
 .navbar {
     background-color: #2C3E50;
     color: white;
 }
+
 #mainContainer {
     background-color: #ECF0F1;
+    padding-bottom: 45px;
 }
+
 h1 {
     font-size: 3em;
 }
@@ -31,6 +36,10 @@ h1 {
 
 #destination {
     margin-bottom: 10px;
+}
+
+#blind {
+    font-size: 1.3em;
 }
 
 .pac-container {
@@ -89,6 +98,7 @@ button:focus {
     -webkit-border-radius: 8px;
     -moz-border-radius: 8px;
     border-radius: 8px;
+    border: 10px solid #2C3E50;
 }
 
 #getDirections {
@@ -113,8 +123,9 @@ button:focus {
     font-weight: bold;
 }
 
-#downloadDirections:hover, #downloadDirections:focus{
-    color: black !important;
+#downloadDirections:hover, #downloadDirections:focus {
+    color: white !important;
+    background-color: #d17414;
 }
 
 .row h2 {
