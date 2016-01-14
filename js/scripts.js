@@ -262,7 +262,7 @@ function currentCity() {
 }
 
 /**
- * This function includes all the click actions add, directions and download buttons.
+ * This function includes all the click actions for add, directions and download buttons.
  */
 function triggerActions() {
   "use strict";
