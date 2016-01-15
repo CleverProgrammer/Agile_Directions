@@ -243,13 +243,6 @@ $(document).ready(function () {
 
     var allDirections = [];
     var destinations = [];
-    var clicks = 0;
-
-    // e takes in the event.
-    $("body").on("click", function (e) {
-        // debugger;
-        e.stopPropagation();
-    });
 
     // FIXME do on "click" because click has been deprecated in jQuery.
     $("#plus").on("click", function () {
