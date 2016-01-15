@@ -14,11 +14,11 @@ var freegoipURL = 'https://freegeoip.net/json/';
  */
 
 function initMap() {
-  var origin_input = document.getElementById("origin");
-  var destination_input = document.getElementById("destination");
+    var origin_input = document.getElementById("origin");
+    var destination_input = document.getElementById("destination");
 
-  var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
-  var destination_autocomplete = new google.maps.places.Autocomplete(destination_input);
+    var origin_autocomplete = new google.maps.places.Autocomplete(origin_input);
+    var destination_autocomplete = new google.maps.places.Autocomplete(destination_input);
 }
 
 
@@ -28,9 +28,9 @@ function initMap() {
  * @returns {string|string}
  */
 function strip(html) {
-  var tmp = document.createElement("DIV");
-  tmp.innerHTML = html;
-  return tmp.textContent || tmp.innerText || "";
+    var tmp = document.createElement("DIV");
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || "";
 }
 
 /**
@@ -40,26 +40,26 @@ function strip(html) {
  * @return {Array} directions
  */
 function getDirections(json) {
-  "use strict";
-  var steps = json.routes[0].legs[0].steps;
-  var directions = [];
-  var counter = 1;
+    "use strict";
+    var steps = json.routes[0].legs[0].steps;
+    var directions = [];
+    var counter = 1;
 
-  steps.forEach(function (step) {
-    directions.push(counter + ". " +
-        step.instructions + " for " + step.distance.text);
-    counter += 1;
-  });
+    steps.forEach(function (step) {
+        directions.push(counter + ". " +
+            step.instructions + " for " + step.distance.text);
+        counter += 1;
+    });
 
-  // Separates the 2 conjoint words in the last line.
-  // so "Ave Destination" instead of "AveDestination"
-  directions[directions.length - 1] = directions[directions.length - 1].replace(/([a-z])([A-Z])/g, "$1 $2");
+    // Separates the 2 conjoint words in the last line.
+    // so "Ave Destination" instead of "AveDestination"
+    directions[directions.length - 1] = directions[directions.length - 1].replace(/([a-z])([A-Z])/g, "$1 $2");
 
-  // Change "destination will be on the left for 300 ft" to
-  // "destination will be on the left in 300 ft"
-  directions[directions.length - 1] = directions[directions.length - 1].replace(/for/g, "in");
+    // Change "destination will be on the left for 300 ft" to
+    // "destination will be on the left in 300 ft"
+    directions[directions.length - 1] = directions[directions.length - 1].replace(/for/g, "in");
 
-  return directions;
+    return directions;
 }
 
 /**
@@ -68,8 +68,8 @@ function getDirections(json) {
  * @return {string}
  */
 function getEta(json) {
-  "use strict";
-  return json.routes[0].legs[0].duration.text;
+    "use strict";
+    return json.routes[0].legs[0].duration.text;
 }
 
 /**
@@ -77,14 +77,14 @@ function getEta(json) {
  * @returns {array} destinations
  */
 function destinationAdder(destinations, destinationButton) {
-  if ($(destinationButton).val() === "") {
-    $(destinationButton).css("border", "2px solid red");
-  } else {
-    destinations.push(destinationButton.val().split(",").join(" "));
-    $(destinationButton).css("border", "none");
-  }
-  $(destinationButton).val("");
-  return destinations;
+    if ($(destinationButton).val() === "") {
+        $(destinationButton).css("border", "2px solid red");
+    } else {
+        destinations.push(destinationButton.val().split(",").join(" "));
+        $(destinationButton).css("border", "none");
+    }
+    $(destinationButton).val("");
+    return destinations;
 }
 
 /**
@@ -95,41 +95,41 @@ function destinationAdder(destinations, destinationButton) {
  * @param {array} allDirections
  */
 function downloadDirectionsAsCSV(allDestinations, allDirections) {
-  var strippedDirections = [];
-  var counter = 0;
-  allDirections.forEach(function (directions) {
-    counter += 1;
-    var tempArray = [];
-    directions.forEach(function (direction) {
-      tempArray.push(strip(direction));
+    var strippedDirections = [];
+    var counter = 0;
+    allDirections.forEach(function (directions) {
+        counter += 1;
+        var tempArray = [];
+        directions.forEach(function (direction) {
+            tempArray.push(strip(direction));
+        });
+        strippedDirections.push(tempArray);
     });
-    strippedDirections.push(tempArray);
-  });
 
-  var longest = 0;
-  allDirections.forEach(function (arr, i) {
-    if (arr.length > allDirections[longest].length) longest = i;
-  });
+    var longest = 0;
+    allDirections.forEach(function (arr, i) {
+        if (arr.length > allDirections[longest].length) longest = i;
+    });
 
-  var newArray = strippedDirections[longest].map(function (col, i) {
-    return strippedDirections.map(function (row) {
-      return row[i]
-    })
-  });
+    var newArray = strippedDirections[longest].map(function (col, i) {
+        return strippedDirections.map(function (row) {
+            return row[i]
+        })
+    });
 
-  var csvContent = "data:text/csv;charset=utf-8,";
-  csvContent += Papa.unparse({
-    fields: allDestinations,
-    data: newArray
-  });
+    var csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += Papa.unparse({
+        fields: allDestinations,
+        data: newArray
+    });
 
-  var encodedUri = encodeURI(csvContent);
-  var link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
 
-  // This will download the data file named "my_data.csv".showDirections(json);
-  link.setAttribute("download", "my_data.csv");
-  link.click();
+    // This will download the data file named "my_data.csv".showDirections(json);
+    link.setAttribute("download", "my_data.csv");
+    link.click();
 }
 
 /**
@@ -139,11 +139,11 @@ function downloadDirectionsAsCSV(allDestinations, allDirections) {
  * @return {Object}
  */
 function directionsRequest(origin, destination) {
-  return {
-    origin: origin,
-    destination: destination,
-    travelMode: google.maps.DirectionsTravelMode.DRIVING
-  };
+    return {
+        origin: origin,
+        destination: destination,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
 }
 
 /**
@@ -151,21 +151,21 @@ function directionsRequest(origin, destination) {
  * @param {Object} request
  */
 function displayDirectionsReport(request) {
-  var directionsService = new google.maps.DirectionsService();
-  var directionsDisplay = new google.maps.DirectionsRenderer();
-  var div = document.createElement("div");
-  var largerDiv = document.createElement("div");
-  directionsDisplay.setPanel(div);
-  $(largerDiv).addClass("listDirections");
-  $(largerDiv).append(div);
-  $("#mainContainer").append(largerDiv);
-  directionsService.route(request, function (response, status) {
-    if (status === google.maps.DirectionsStatus.OK) {
-      directionsDisplay.setDirections(response);
-    } else {
-      alert("Whoops, " + status + " you got an error!");
-    }
-  });
+    var directionsService = new google.maps.DirectionsService();
+    var directionsDisplay = new google.maps.DirectionsRenderer();
+    var div = document.createElement("div");
+    var largerDiv = document.createElement("div");
+    directionsDisplay.setPanel(div);
+    $(largerDiv).addClass("listDirections");
+    $(largerDiv).append(div);
+    $("#mainContainer").append(largerDiv);
+    directionsService.route(request, function (response, status) {
+        if (status === google.maps.DirectionsStatus.OK) {
+            directionsDisplay.setDirections(response);
+        } else {
+            alert("Whoops, " + status + " you got an error!");
+        }
+    });
 }
 
 /**
@@ -174,12 +174,12 @@ function displayDirectionsReport(request) {
  * @param {array} destinations
  */
 function showDirections(origin, destinations) {
-  // Get the user input
-  destinations.forEach(function (destination) {
-    var request = directionsRequest(origin, destination);
-    displayDirectionsReport(request);
-    // displayDirectionsReport(request, downloadJSON2CSV);
-  });
+    // Get the user input
+    destinations.forEach(function (destination) {
+        var request = directionsRequest(origin, destination);
+        displayDirectionsReport(request);
+        // displayDirectionsReport(request, downloadJSON2CSV);
+    });
 }
 
 /**
@@ -192,27 +192,25 @@ function showDirections(origin, destinations) {
  */
 function displayOrigin(modal, doneButton,
                        origin, originParagraph) {
-  modal.modal();
-  modal.modal({backdrop: 'static', keyboard: false});
-  doneButton.click(function () {
-    if (origin.val() === "") {
-      origin.css("border", "2px solid red");
-    } else {
-      modal.modal("hide");
-      originParagraph.html(origin.val());
-    }
-  });
-  origin.on('keydown', function (e) {
-    if (e.which === 13 || e.keyCode === 13) {
-      if (origin.val() === "") {
-        origin.css("border", "2px solid red");
-      } else {
-        modal.modal("hide");
-        originParagraph.html(origin.val());
-        return false;
-      }
-    }
-  });
+    doneButton.click(function () {
+        if (origin.val() === "") {
+            origin.css("border", "2px solid red");
+        } else {
+            modal.modal("hide");
+            originParagraph.html(origin.val());
+        }
+    });
+    origin.on('keydown', function (e) {
+        if (e.which === 13 || e.keyCode === 13) {
+            if (origin.val() === "") {
+                origin.css("border", "2px solid red");
+            } else {
+                modal.modal("hide");
+                originParagraph.html(origin.val());
+                return false;
+            }
+        }
+    });
 }
 
 /**
@@ -222,59 +220,68 @@ function displayOrigin(modal, doneButton,
  * @param {string} url --> 'https://freegeoip.net/json/'
  */
 function currentCity(origin, originParagraph, url) {
-  "use strict";
-  $.getJSON(url).done(function (location) {
-    if (!(origin.val())) {
-      originParagraph.html(location.city);
-      origin.val(location.city);
-    }
-  });
+    "use strict";
+    $.getJSON(url).done(function (location) {
+        if (!(origin.val())) {
+            originParagraph.html(location.city);
+            origin.val(location.city);
+        }
+    });
 }
 
 $(document).ready(function () {
-  "use strict";
-  // Initializing all HTML attributes.
-  // FIXME: Technology is great, but it has made us dependent on it to the point we can't remember simple directions to a friend's house, or more importantly to a workplace! So what would you do if the network connection or the phone battery were to die on you and you were navigating to a location!? This is why we have designed Agile Directions for you so you can download step by step directions to all your commonly visited places for offline access on a click of a button and all in once place! You can then print out those directions for your convenience and keep them as a backup in your car for emergency situations like your phone dying on you!
-  var origin = $("#origin");
-  var modal = $("#originModal");
-  var originParagraph = $("#originParagraph");
-  var doneButton = $("#doneButton");
-  var destinationButton = $("#destination");
-  displayOrigin(modal, doneButton, origin, originParagraph);
+    "use strict";
+    // Initializing all HTML attributes.
+    // FIXME: Technology is great, but it has made us dependent on it to the point we can't remember simple directions to a friend's house, or more importantly to a workplace! So what would you do if the network connection or the phone battery were to die on you and you were navigating to a location!? This is why we have designed Agile Directions for you so you can download step by step directions to all your commonly visited places for offline access on a click of a button and all in once place! You can then print out those directions for your convenience and keep them as a backup in your car for emergency situations like your phone dying on you!
+    var origin = $("#origin");
+    var modal = $("#originModal").modal({backdrop: 'static', keyboard: false});
+    var originParagraph = $("#originParagraph");
+    var doneButton = $("#doneButton");
+    var destinationButton = $("#destination");
+    // debugger;
+    displayOrigin(modal, doneButton, origin, originParagraph);
 
-  var allDirections = [];
-  var destinations = [];
-  var clicks = 0;
-  $("#plus").click(function () {
-    origin = $("#origin").val();
-    destinationAdder(destinations, destinationButton);
+    var allDirections = [];
+    var destinations = [];
+    var clicks = 0;
 
-    // TODO add this to the main gh-pages most updated one.
-    var index = allDirections.length;
-    allDirections.push("PLACEHOLDER");
-    var request = directionsRequest(origin, destinations[destinations.length - 1]);
-    var directionsService = new google.maps.DirectionsService();
-    var directionsDisplay = new google.maps.DirectionsRenderer();
+    // e takes in the event.
+    $("body").on("click", function (e) {
+        // debugger;
+        e.stopPropagation();
+    });
 
-    // HTML STUFF
-    var div = document.createElement("div");
-    var largerDiv = document.createElement("div");
-    directionsDisplay.setPanel(div);
-    $(largerDiv).addClass("listDirections");
-    $(largerDiv).append(div);
-    $("#mainContainer").append(largerDiv);
+    // FIXME do on "click" because click has been deprecated in jQuery.
+    $("#plus").on("click", function () {
+        origin = $("#origin").val();
+        destinationAdder(destinations, destinationButton);
 
-    directionsService.route(request, function (response, status) {
-      if (status === google.maps.DirectionsStatus.OK) {
-        directionsDisplay.setDirections(response);
-        allDirections[index] = getDirections(response);
-      } else {
-        alert(status);
-      }
+        // TODO add this to the main gh-pages most updated one.
+        var index = allDirections.length;
+        allDirections.push("PLACEHOLDER");
+        var request = directionsRequest(origin, destinations[destinations.length - 1]);
+        var directionsService = new google.maps.DirectionsService();
+        var directionsDisplay = new google.maps.DirectionsRenderer();
+
+        // HTML STUFF
+        var div = document.createElement("div");
+        var largerDiv = document.createElement("div");
+        directionsDisplay.setPanel(div);
+        $(largerDiv).addClass("listDirections");
+        $(largerDiv).append(div);
+        $("#mainContainer").append(largerDiv);
+
+        directionsService.route(request, function (response, status) {
+            if (status === google.maps.DirectionsStatus.OK) {
+                directionsDisplay.setDirections(response);
+                allDirections[index] = getDirections(response);
+            } else {
+                alert(status);
+            }
+        });
     });
 
     $("#downloadDirections").click(function () {
-      downloadDirectionsAsCSV(destinations, allDirections);
+        downloadDirectionsAsCSV(destinations, allDirections);
     });
-  });
 });
