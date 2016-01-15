@@ -96,14 +96,8 @@ function destinationAdder(destinations, destinationButton) {
  */
 function downloadDirectionsAsCSV(allDestinations, allDirections) {
     var strippedDirections = [];
-    var counter = 0;
     allDirections.forEach(function (directions) {
-        counter += 1;
-        var tempArray = [];
-        directions.forEach(function (direction) {
-            tempArray.push(strip(direction));
-        });
-        strippedDirections.push(tempArray);
+        strippedDirections.push(directions.map(strip));
     });
 
     var longest = 0;
@@ -144,42 +138,6 @@ function directionsRequest(origin, destination) {
         destination: destination,
         travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
-}
-
-/**
- * Displays step by step directions for one address.
- * @param {Object} request
- */
-function displayDirectionsReport(request) {
-    var directionsService = new google.maps.DirectionsService();
-    var directionsDisplay = new google.maps.DirectionsRenderer();
-    var div = document.createElement("div");
-    var largerDiv = document.createElement("div");
-    directionsDisplay.setPanel(div);
-    $(largerDiv).addClass("listDirections");
-    $(largerDiv).append(div);
-    $("#mainContainer").append(largerDiv);
-    directionsService.route(request, function (response, status) {
-        if (status === google.maps.DirectionsStatus.OK) {
-            directionsDisplay.setDirections(response);
-        } else {
-            alert("Whoops, " + status + " you got an error!");
-        }
-    });
-}
-
-/**
- * It shows all the directions' results at once to the user.
- * @param {string} origin
- * @param {array} destinations
- */
-function showDirections(origin, destinations) {
-    // Get the user input
-    destinations.forEach(function (destination) {
-        var request = directionsRequest(origin, destination);
-        displayDirectionsReport(request);
-        // displayDirectionsReport(request, downloadJSON2CSV);
-    });
 }
 
 /**
